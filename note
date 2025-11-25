@@ -1,0 +1,23 @@
+i wan you to help me code this image using next js, tailwind, pls take note of every thing in the image, pls let it have a max width of max-w-7xl 
+, take note of the yellow dots, the our clients feedback and the What they’re talking
+about us
+ on the left and on the right the control arrows as it is in the image  then below that the cards that are sliding, 2 cards on big screen that continue sliding horizontally, but cn also be contolled by the arrow, take note of the line highlight of the cards the images, the name, the content/testimonail the stars to, on small screeen let it be one card, pls make it responsive on al screens  anything not clear pls ask me thank you      
+
+ import React from 'react'
+
+const Testimonials = () => {
+  return (
+    <div>Testimonials</div>
+  )
+}
+
+export default Testimonials
+
+
+
+[#A7F3D0]
+[#10B981]
+[#00FF7F]
+[#22D3EE]
+[#3882F6]
+[#3882F6]
