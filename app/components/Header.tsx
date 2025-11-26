@@ -3,91 +3,80 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 
-const videos = [
-  "/videos/hero1.mp4",
-  "/videos/hero2.mp4",
-];
+const videos = ["/videos/hero1.mp4", "/videos/hero2.mp4"];
 
 export default function HeroNav() {
   const [index, setIndex] = useState(0);
   const [fade, setFade] = useState(false);
-  const [isCtaHovered, setIsCtaHovered] = useState(false);
+  const [hover, setHover] = useState(false);
 
+  // Video crossfade logic (optimized)
   useEffect(() => {
     const interval = setInterval(() => {
       setFade(true);
       setTimeout(() => {
         setIndex((prev) => (prev + 1) % videos.length);
         setFade(false);
-      }, 800);
+      }, 700);
     }, 8000);
+
     return () => clearInterval(interval);
   }, []);
 
   return (
     <section className="relative w-full text-white overflow-hidden">
-      {/* BACKGROUND VIDEOS */}
+
+      {/* BACKGROUND VIDEO – ONLY ONE VIDEO LOADED AT A TIME */}
       <div className="absolute inset-0 -z-10">
-        <video
+        <motion.video
           key={index}
           src={videos[index]}
-          className={`absolute w-full h-full object-cover transition-opacity duration-700 ${fade ? "opacity-0" : "opacity-100"}`}
+          className="absolute inset-0 w-full h-full object-cover"
           autoPlay
           muted
           loop
           playsInline
-        />
-        <video
-          key={"next-" + index}
-          src={videos[(index + 1) % videos.length]}
-          className={`absolute w-full h-full object-cover transition-opacity duration-700 ${fade ? "opacity-100" : "opacity-0"}`}
-          autoPlay
-          muted
-          loop
-          playsInline
+          preload="metadata"
+          poster="/videos/poster.jpg"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: fade ? 0 : 1 }}
+          transition={{ duration: 0.7 }}
         />
         <div className="absolute inset-0 bg-black/50" />
       </div>
 
       {/* HERO CONTENT */}
-      <div className="relative z-20 flex flex-col items-center justify-center py-[24vh] px-4 md:px-6 text-center">
+      <div className="relative z-20 flex flex-col items-center justify-center py-[24vh] px-4 text-center">
         <motion.h1
           initial={{ opacity: 0, y: 60 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease: "easeOut", delay: 0.2 }}
+          transition={{ duration: 0.9, ease: "easeOut" }}
           className="max-w-5xl text-4xl md:text-6xl lg:text-7xl font-bold tracking-wider leading-tight"
         >
           MORE THAN <br />
           JUST A{" "}
-          <span className="mx-2 md:mx-3 text-[#4EE1FF] drop-shadow-[0_0_10px_rgba(78,225,255,0.8)]">
+          <span className="mx-2 md:mx-3 text-[#4EE1FF] drop-shadow-[0_0_12px_rgba(78,225,255,0.8)]">
             TYPICAL
-          </span>{" "}
+          </span>
           <br />
-          <span className="inline-flex flex-wrap items-center justify-center gap-x-3 md:gap-x-5">
+
+          {/* CTA BUBBLE */}
+          <span className="inline-flex items-center gap-x-3 md:gap-x-5">
             <span>WEB AGENCY</span>
 
             <motion.button
-              className={`
-                w-12 h-12 md:w-16 md:h-16 rounded-full
-                flex items-center justify-center
-                transition-colors duration-300
-                ${isCtaHovered ? "bg-[#3BC3E6]" : "bg-[#4EE1FF]"}
+              onMouseEnter={() => setHover(true)}
+              onMouseLeave={() => setHover(false)}
+              onClick={() => console.log("CTA Clicked")}
+              className={`w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center transition-colors duration-300 
+                ${hover ? "bg-[#3BC3E6]" : "bg-[#4EE1FF]"}
               `}
-              onMouseEnter={() => setIsCtaHovered(true)}
-              onMouseLeave={() => setIsCtaHovered(false)}
-              onClick={() => console.log("Success CTA Clicked")}
             >
               <motion.span
-                animate={{
-                  rotate: isCtaHovered ? 0 : 45,
-                  textShadow: isCtaHovered
-                    ? "0 0 8px rgba(78,225,255,0.8), 0 0 16px rgba(78,225,255,0.5)"
-                    : "0 0 0 rgba(0,0,0,0)",
-                }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
-                className="flex items-center justify-center"
+                animate={{ rotate: hover ? 0 : 45 }}
+                transition={{ duration: 0.25 }}
               >
-                <ArrowRight size={24} className="text-black md:w-7 md:h-7" />
+                <ArrowRight className="text-black w-6 h-6 md:w-7 md:h-7" />
               </motion.span>
             </motion.button>
           </span>
@@ -118,6 +107,128 @@ export default function HeroNav() {
     </section>
   );
 }
+
+
+// "use client";
+// import { useState, useEffect } from "react";
+// import { motion } from "framer-motion";
+// import { ArrowRight } from "lucide-react";
+
+// const videos = [
+//   "/videos/hero1.mp4",
+//   "/videos/hero2.mp4",
+// ];
+
+// export default function HeroNav() {
+//   const [index, setIndex] = useState(0);
+//   const [fade, setFade] = useState(false);
+//   const [isCtaHovered, setIsCtaHovered] = useState(false);
+
+//   useEffect(() => {
+//     const interval = setInterval(() => {
+//       setFade(true);
+//       setTimeout(() => {
+//         setIndex((prev) => (prev + 1) % videos.length);
+//         setFade(false);
+//       }, 800);
+//     }, 8000);
+//     return () => clearInterval(interval);
+//   }, []);
+
+//   return (
+//     <section className="relative w-full text-white overflow-hidden">
+//       {/* BACKGROUND VIDEOS */}
+//       <div className="absolute inset-0 -z-10">
+//         <video
+//           key={index}
+//           src={videos[index]}
+//           className={`absolute w-full h-full object-cover transition-opacity duration-700 ${fade ? "opacity-0" : "opacity-100"}`}
+//           autoPlay
+//           muted
+//           loop
+//           playsInline
+//         />
+//         <video
+//           key={"next-" + index}
+//           src={videos[(index + 1) % videos.length]}
+//           className={`absolute w-full h-full object-cover transition-opacity duration-700 ${fade ? "opacity-100" : "opacity-0"}`}
+//           autoPlay
+//           muted
+//           loop
+//           playsInline
+//         />
+//         <div className="absolute inset-0 bg-black/50" />
+//       </div>
+
+//       {/* HERO CONTENT */}
+//       <div className="relative z-20 flex flex-col items-center justify-center py-[24vh] px-4 md:px-6 text-center">
+//         <motion.h1
+//           initial={{ opacity: 0, y: 60 }}
+//           animate={{ opacity: 1, y: 0 }}
+//           transition={{ duration: 0.9, ease: "easeOut", delay: 0.2 }}
+//           className="max-w-5xl text-4xl md:text-6xl lg:text-7xl font-bold tracking-wider leading-tight"
+//         >
+//           MORE THAN <br />
+//           JUST A{" "}
+//           <span className="mx-2 md:mx-3 text-[#4EE1FF] drop-shadow-[0_0_10px_rgba(78,225,255,0.8)]">
+//             TYPICAL
+//           </span>{" "}
+//           <br />
+//           <span className="inline-flex flex-wrap items-center justify-center gap-x-3 md:gap-x-5">
+//             <span>WEB AGENCY</span>
+
+//             <motion.button
+//               className={`
+//                 w-12 h-12 md:w-16 md:h-16 rounded-full
+//                 flex items-center justify-center
+//                 transition-colors duration-300
+//                 ${isCtaHovered ? "bg-[#3BC3E6]" : "bg-[#4EE1FF]"}
+//               `}
+//               onMouseEnter={() => setIsCtaHovered(true)}
+//               onMouseLeave={() => setIsCtaHovered(false)}
+//               onClick={() => console.log("Success CTA Clicked")}
+//             >
+//               <motion.span
+//                 animate={{
+//                   rotate: isCtaHovered ? 0 : 45,
+//                   textShadow: isCtaHovered
+//                     ? "0 0 8px rgba(78,225,255,0.8), 0 0 16px rgba(78,225,255,0.5)"
+//                     : "0 0 0 rgba(0,0,0,0)",
+//                 }}
+//                 transition={{ duration: 0.3, ease: "easeOut" }}
+//                 className="flex items-center justify-center"
+//               >
+//                 <ArrowRight size={24} className="text-black md:w-7 md:h-7" />
+//               </motion.span>
+//             </motion.button>
+//           </span>
+//         </motion.h1>
+//       </div>
+
+//       {/* MARQUEE */}
+//       <div className="w-full border-t border-white/10 overflow-hidden absolute bottom-0">
+//         <motion.div
+//           className="flex whitespace-nowrap uppercase text-xs md:text-sm tracking-widest py-3 md:py-4 bg-black/25 backdrop-blur-sm"
+//           animate={{ x: ["0%", "-50%"] }}
+//           transition={{ repeat: Infinity, ease: "linear", duration: 20 }}
+//         >
+//           {[1, 2].map((i) => (
+//             <div key={i} className="flex">
+//               <span className="mx-4 md:mx-8">STRATEGY _ DESIGN _ BUILD _ DEPLOY</span>
+//               <span className="mx-4 md:mx-8 text-[#4EE1FF]">✦</span>
+//               <span className="mx-4 md:mx-8">ELEVATING YOUR DIGITAL PRESENCE</span>
+//               <span className="mx-4 md:mx-8 text-[#4EE1FF]">✦</span>
+//               <span className="mx-4 md:mx-8">DRIVING GROWTH THROUGH TECHNOLOGY</span>
+//               <span className="mx-4 md:mx-8 text-[#4EE1FF]">✦</span>
+//               <span className="mx-4 md:mx-8">FUTURE-PROOFING YOUR INVESTMENT</span>
+//               <span className="mx-4 md:mx-8 text-[#4EE1FF]">✦</span>
+//             </div>
+//           ))}
+//         </motion.div>
+//       </div>
+//     </section>
+//   );
+// }
 
 
 // my site has images and videos as background or just part of the code and Layout, but when it loads the images and vieos do not load quickly and i need it to load snappy and quickly so my site bahaves professionally, not i am using next js tsx pls help me   
