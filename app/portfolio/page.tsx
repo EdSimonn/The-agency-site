@@ -8,42 +8,29 @@ import { projects } from "../data/projects";
 const PortfolioPage = () => {
   return (
     <main className="w-full min-h-screen bg-[#111]">
-{/* HERO SECTION */}
-<section className="relative h-[80vh] w-full flex flex-col justify-center">
-  {/* Background Image */}
-  <div
-    className="absolute inset-0 z-0"
-    style={{
-      backgroundImage: "url('/images/hero1.jpg')",
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-      filter: "grayscale(100%) brightness(0.6)",
-    }}
-  />
-
-  {/* Breadcrumb */}
-  <div className="relative z-10 max-w-7xl mx-auto px-6">
-    <div className="text-sm md:text-base text-gray-300 mb-4 tracking-wide">
-      <Link href={"/"}>Home</Link>
-      <span className="mx-2">•</span>
-      <span className="text-white">Portfolio</span>
-    </div>
-  </div>
-
-  {/* Full-width Hero Title */}
-  <h1
-    className="relative z-10 w-full px-6 font-bold text-white tracking-tight leading-none"
-    style={{
-      fontSize: "clamp(6rem, 12vw, 12rem)", // responsive full-width scaling
-    }}
-  >
-    Portfolio
-  </h1>
-
-  {/* Bottom Gradient */}
-  <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#111] to-transparent z-0" />
-</section>
-
+      {/* HERO SECTION */}
+      <section className="relative h-[80vh] w-full flex items-center">
+        <div
+          className="absolute inset-0 z-0"
+          style={{
+            backgroundImage: "url('/images/hero1.jpg')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            filter: "grayscale(100%) brightness(0.6)",
+          }}
+        />
+        <div className="relative z-10 max-w-7xl mx-auto px-6 w-full mt-10">
+          <div className="text-sm md:text-base text-gray-300 mb-2 tracking-wide">
+            <Link href={"/"}>Home</Link>
+            <span className="mx-2">•</span>
+            <span className="text-white">Portfolio</span>
+          </div>
+          <h1 className="text-[7rem] sm:text-[9rem] md:text-[11rem] lg:text-[15rem] xl:text-[20rem] font-bold text-white tracking-tight max-w-7xl">
+            Portfolio
+          </h1>
+        </div>
+        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#111] to-transparent z-0" />
+      </section>
 
       {/* Our Story */}
       {/* <section className="max-w-4xl mx-auto px-6 py-20">
