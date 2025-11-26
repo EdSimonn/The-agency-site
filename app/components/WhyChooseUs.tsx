@@ -99,7 +99,6 @@ const WhyChooseUs = () => {
                   alt="wireframe planning"
                   fill
                   className="object-cover grayscale hover:grayscale-0 transition-all duration-500"
-                  placeholder="blur"
                   priority
                 />
               </motion.div>
@@ -114,7 +113,6 @@ const WhyChooseUs = () => {
                   alt="laptop working"
                   fill
                   className="object-cover grayscale hover:grayscale-0 transition-all duration-500"
-                  placeholder="blur"
                   priority
                 />
               </motion.div>
@@ -130,7 +128,6 @@ const WhyChooseUs = () => {
                 alt="person on phone"
                 fill
                 className="object-cover grayscale hover:grayscale-0 transition-all duration-500"
-                placeholder="blur"
                 priority
               />
             </motion.div>
@@ -218,6 +215,7 @@ const WhyChooseUs = () => {
 
 export default WhyChooseUs;
 
+
 // "use client";
 
 // import React, { useState } from "react";
@@ -277,7 +275,7 @@ export default WhyChooseUs;
 //         alt=""
 //         fill
 //         priority
-// placeholder="blur"
+        // placeholder="blur"
 //         blurDataURL={src} // You can replace with tiny base64 placeholder if you have one
 //         className={`object-cover grayscale hover:grayscale-0  transition-all duration-500 ${
 //           loaded ? "opacity-100" : "opacity-0"
@@ -380,6 +378,9 @@ export default WhyChooseUs;
 // };
 
 // export default WhyChooseUs;
+
+
+
 
 // "use client";
 
