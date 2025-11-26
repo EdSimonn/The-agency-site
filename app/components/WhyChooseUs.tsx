@@ -99,6 +99,8 @@ const WhyChooseUs = () => {
                   alt="wireframe planning"
                   fill
                   className="object-cover grayscale hover:grayscale-0 transition-all duration-500"
+                  placeholder="blur"
+                  priority
                 />
               </motion.div>
 
@@ -112,6 +114,8 @@ const WhyChooseUs = () => {
                   alt="laptop working"
                   fill
                   className="object-cover grayscale hover:grayscale-0 transition-all duration-500"
+                  placeholder="blur"
+                  priority
                 />
               </motion.div>
             </div>
@@ -126,6 +130,8 @@ const WhyChooseUs = () => {
                 alt="person on phone"
                 fill
                 className="object-cover grayscale hover:grayscale-0 transition-all duration-500"
+                placeholder="blur"
+                priority
               />
             </motion.div>
           </motion.div>
@@ -211,6 +217,169 @@ const WhyChooseUs = () => {
 };
 
 export default WhyChooseUs;
+
+// "use client";
+
+// import React, { useState } from "react";
+// import Image from "next/image";
+// import { motion, Variants } from "framer-motion";
+// import { LifeBuoy, Workflow } from "lucide-react";
+
+// // ---------- VARIANTS ----------
+// const imagesContainer: Variants = {
+//   hidden: { opacity: 0 },
+//   show: {
+//     opacity: 1,
+//     transition: {
+//       staggerChildren: 0.3,
+//     },
+//   },
+// };
+
+// const imageReveal: Variants = {
+//   hidden: { clipPath: "inset(0 100% 0 0)" },
+//   show: {
+//     clipPath: "inset(0 0% 0 0)",
+//     transition: { duration: 2, ease: [0.22, 1, 0.36, 1] },
+//   },
+// };
+
+// const contentContainer: Variants = {
+//   hidden: { opacity: 0 },
+//   show: {
+//     opacity: 1,
+//     transition: { staggerChildren: 0.2, delayChildren: 0.5 },
+//   },
+// };
+
+// const itemVariant: Variants = {
+//   hidden: { opacity: 0, y: 30 },
+//   show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+// };
+
+// const lineVariant: Variants = {
+//   hidden: { scaleX: 0, originX: 0 },
+//   show: { scaleX: 1, transition: { duration: 0.8, ease: "easeInOut" } },
+// };
+
+// // ---------------- IMAGE CARD ----------------
+// function ImageCard({ src, tall = false }: { src: string; tall?: boolean }) {
+//   const [loaded, setLoaded] = useState(false);
+
+//   return (
+//     <motion.div
+//       variants={imageReveal}
+//       className={`relative overflow-hidden rounded-md ${tall ? "h-[420px]" : "h-48 md:h-64"} w-full`}
+//       style={{ willChange: "clip-path, opacity" }}
+//     >
+//       <Image
+//         src={src}
+//         alt=""
+//         fill
+//         priority
+// placeholder="blur"
+//         blurDataURL={src} // You can replace with tiny base64 placeholder if you have one
+//         className={`object-cover grayscale hover:grayscale-0  transition-all duration-500 ${
+//           loaded ? "opacity-100" : "opacity-0"
+//         }`}
+//         onLoadingComplete={() => setLoaded(true)}
+//       />
+//     </motion.div>
+//   );
+// }
+
+// // ---------------- MAIN COMPONENT ----------------
+// const WhyChooseUs = () => {
+//   return (
+//     <section className="py-20 px-6 bg-black text-white relative overflow-hidden">
+//       <div className="max-w-7xl mx-auto px-6 md:px-12 py-12">
+//         {/* Decorative Elements - Floating Animation */}
+//         <motion.div
+//           animate={{ y: [0, -10, 0] }}
+//           transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+//           className="absolute top-20 left-1/4 w-2 h-2 rounded-full border border-[#4EE1FF] opacity-50"
+//         />
+//         <motion.div
+//           animate={{ y: [0, 15, 0] }}
+//           transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+//           className="absolute top-10 left-[45%] w-1 h-1 bg-[#4EE1FF] rounded-full"
+//         />
+
+//         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 xl:gap-20 items-start">
+//           {/* LEFT SIDE: IMAGES */}
+//           <motion.div
+//             variants={imagesContainer}
+//             initial="hidden"
+//             whileInView="show"
+//             viewport={{ once: true, amount: 0.2 }}
+//             className="order-1 lg:order-1 grid md:grid-cols-2 grid-cols-1 gap-4 items-center"
+//           >
+//             {/* Column 1 */}
+//             <div className="flex flex-col gap-4">
+//               <ImageCard src="/images/w-c-u-img-2.png" />
+//               <ImageCard src="/images/w-c-u-img-3.png" />
+//             </div>
+
+//             {/* Column 2 */}
+//             <ImageCard src="/images/w-c-u-img-1.png" tall />
+//           </motion.div>
+
+//           {/* RIGHT SIDE: CONTENT */}
+//           <motion.div
+//             className="order-2 lg:order-2 flex flex-col justify-center"
+//             variants={contentContainer}
+//             initial="hidden"
+//             whileInView="show"
+//             viewport={{ once: true, amount: 0.2 }}
+//           >
+//             {/* Subheading */}
+//             <motion.div variants={itemVariant}>
+//               <p className="uppercase text-gray-400 text-sm tracking-widest mb-3">
+//                 WHY CHOOSE US
+//               </p>
+//             </motion.div>
+
+//             {/* Heading */}
+//             <motion.h2 variants={itemVariant} className="text-3xl md:text-5xl font-bold leading-tight mb-6">
+//               Why choose our agency?
+//             </motion.h2>
+
+//             {/* Description */}
+//             <motion.p variants={itemVariant} className="text-gray-300 leading-relaxed max-w-xl mb-8">
+//               Our process is built around transparency and structure, making every stage easy to understand. We take time to refine each step—planning, designing, and developing with focus—so your project is delivered with consistency, clarity, and a polished final result.
+//             </motion.p>
+
+//             {/* Animated Divider */}
+//             <motion.div variants={lineVariant} className="h-[1px] w-full bg-gray-800 mb-10 origin-left" />
+
+//             {/* Features */}
+//             <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+//               <motion.div variants={itemVariant} className="flex items-center gap-4">
+//                 <div className="w-20 h-20 rounded-full flex items-center justify-center shadow-md bg-black border border-gray-800">
+//                   <Workflow className="w-10 h-10 text-[#4EE1FF] drop-shadow-[0_0_8px_rgba(78,225,255,0.6)]" />
+//                 </div>
+//                 <p className="font-semibold text-xl">
+//                   Clear <br /> Process
+//                 </p>
+//               </motion.div>
+
+//               <motion.div variants={itemVariant} className="flex items-center gap-4">
+//                 <div className="w-20 h-20 rounded-full flex items-center justify-center shadow-md bg-black border border-gray-800">
+//                   <LifeBuoy className="w-10 h-10 text-[#4EE1FF] drop-shadow-[0_0_8px_rgba(78,225,255,0.6)]" />
+//                 </div>
+//                 <p className="font-semibold text-xl">
+//                   Reliable <br /> Support
+//                 </p>
+//               </motion.div>
+//             </div>
+//           </motion.div>
+//         </div>
+//       </div>
+//     </section>
+//   );
+// };
+
+// export default WhyChooseUs;
 
 // "use client";
 
