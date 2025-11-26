@@ -24,7 +24,7 @@ const imageReveal: Variants = {
   show: {
     clipPath: "inset(0 0% 0 0)", // Fully visible
     transition: {
-      duration: 1.4,
+      duration: 2,
       ease: [0.22, 1, 0.36, 1], // Cubic bezier for smooth "luxury" feel
     },
   },
@@ -95,7 +95,7 @@ const WhyChooseUs = () => {
                 className="h-48 md:h-64 w-full rounded-md overflow-hidden relative"
               >
                 <Image
-                  src="/images/2149405387.jpg"
+                  src="/images/w-c-u-img-2.png"
                   alt="wireframe planning"
                   fill
                   className="object-cover grayscale hover:grayscale-0 transition-all duration-500"
@@ -108,7 +108,7 @@ const WhyChooseUs = () => {
                 className="h-48 md:h-64 w-full rounded-md overflow-hidden relative"
               >
                 <Image
-                  src="/images/2150167461.jpg"
+                  src="/images/w-c-u-img-3.png"
                   alt="laptop working"
                   fill
                   className="object-cover grayscale hover:grayscale-0 transition-all duration-500"
@@ -122,7 +122,7 @@ const WhyChooseUs = () => {
               className="h-[420px] w-full rounded-md overflow-hidden relative flex items-center"
             >
               <Image
-                src="/images/2149116525.jpg"
+                src="/images/w-c-u-img-1.png"
                 alt="person on phone"
                 fill
                 className="object-cover grayscale hover:grayscale-0 transition-all duration-500"

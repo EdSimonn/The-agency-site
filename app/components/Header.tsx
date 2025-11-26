@@ -120,7 +120,7 @@ export default function HeroNav() {
 }
 
 
-
+// my site has images and videos as background or just part of the code and Layout, but when it loads the images and vieos do not load quickly and i need it to load snappy and quickly so my site bahaves professionally, not i am using next js tsx pls help me   
 
 // "use client";
 // import { motion } from "framer-motion";

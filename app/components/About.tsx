@@ -55,12 +55,12 @@ const About: React.FC = () => {
             <motion.div
               initial={{ clipPath: "inset(0 100% 0 0)" }}
               whileInView={{ clipPath: "inset(0 0% 0 0)" }}
-              transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 2, ease: [0.22, 1, 0.36, 1] }}
               viewport={{ once: true }}
               className="absolute inset-0 w-full h-full"
             >
               <Image
-                src="/images/2149311493.jpg"
+                src="/images/about-img.png"
                 alt="Team working together"
                 fill
                 className="object-cover rounded-sm grayscale hover:grayscale-0 transition-all duration-500"
