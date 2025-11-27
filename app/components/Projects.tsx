@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
 import { projects } from "../data/projects";
 import ProjectCard from "./ProjectCard";
 import { motion } from "framer-motion";

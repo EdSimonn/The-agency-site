@@ -4,8 +4,8 @@ import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 
 const videos = [
-  "/videos/hero11.mp4",
-  "/videos/hero22.mp4",
+  "/videos/hero1.mp4",
+  "/videos/hero2.mp4",
 ];
 
 export default function HeroNav() {

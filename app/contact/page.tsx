@@ -134,7 +134,7 @@ const ContactPage = () => {
         <div
           className="absolute inset-0 z-0"
           style={{
-            backgroundImage: "url('/images/hero1.jpg')",
+            backgroundImage: "url('/images/page-banner.webp')",
             backgroundSize: "cover",
             backgroundPosition: "center",
             filter: "grayscale(100%) brightness(0.6)",

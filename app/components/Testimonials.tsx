@@ -262,254 +262,254 @@
 // export default Testimonials;
 
 
-"use client";
-import React, { useEffect, useRef, useState } from "react";
-import Image from "next/image";
-import {
-  ChevronLeft,
-  ChevronRight,
-  Star,
-  Plus,
-} from "lucide-react"; // Lucide icons
+// "use client";
+// import React, { useEffect, useRef, useState } from "react";
+// import Image from "next/image";
+// import {
+//   ChevronLeft,
+//   ChevronRight,
+//   Star,
+//   Plus,
+// } from "lucide-react"; // Lucide icons
 
-// ====== Types ======
-interface Testimonial {
-  id: number;
-  name: string;
-  avatar: string;
-  text: string;
-  rating: number;
-}
+// // ====== Types ======
+// interface Testimonial {
+//   id: number;
+//   name: string;
+//   avatar: string;
+//   text: string;
+//   rating: number;
+// }
 
-// ====== Data ======
-const testimonials: Testimonial[] = [
-  {
-    id: 1,
-    name: "Donald hardson",
-    avatar: "/avatars/avatar1.jpg",
-    text: "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy data foster to collaborative thinking.",
-    rating: 4.9,
-  },
-  {
-    id: 2,
-    name: "Aleesha brown",
-    avatar: "/avatars/avatar2.jpg",
-    text: "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy data foster to collaborative thinking.",
-    rating: 4.9,
-  },
-  {
-    id: 3,
-    name: "Rachel Meyers",
-    avatar: "/avatars/avatar3.jpg",
-    text: "Iterative approaches and collaborative thinking helped our team deliver top-tier product improvements. Highly recommended.",
-    rating: 4.8,
-  },
-  {
-    id: 4,
-    name: "John Smith",
-    avatar: "/avatars/avatar4.jpg",
-    text: "Professional and responsive — the results speak for themselves. Great to work with across the whole process.",
-    rating: 4.7,
-  },
-];
+// // ====== Data ======
+// const testimonials: Testimonial[] = [
+//   {
+//     id: 1,
+//     name: "Donald hardson",
+//     avatar: "/avatars/avatar1.jpg",
+//     text: "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy data foster to collaborative thinking.",
+//     rating: 4.9,
+//   },
+//   {
+//     id: 2,
+//     name: "Aleesha brown",
+//     avatar: "/avatars/avatar2.jpg",
+//     text: "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy data foster to collaborative thinking.",
+//     rating: 4.9,
+//   },
+//   {
+//     id: 3,
+//     name: "Rachel Meyers",
+//     avatar: "/avatars/avatar3.jpg",
+//     text: "Iterative approaches and collaborative thinking helped our team deliver top-tier product improvements. Highly recommended.",
+//     rating: 4.8,
+//   },
+//   {
+//     id: 4,
+//     name: "John Smith",
+//     avatar: "/avatars/avatar4.jpg",
+//     text: "Professional and responsive — the results speak for themselves. Great to work with across the whole process.",
+//     rating: 4.7,
+//   },
+// ];
 
-// ====== Stars Component ======
-const Stars: React.FC<{ rating?: number }> = ({ rating = 5 }) => {
-  return (
-    <div className="text-amber-500 flex">
-      {Array.from({ length: 5 }).map((_, i) => (
-        <Star
-          key={i}
-          size={16}
-          className="fill-amber-500 text-amber-500"
-        />
-      ))}
-    </div>
-  );
-};
+// // ====== Stars Component ======
+// const Stars: React.FC<{ rating?: number }> = ({ rating = 5 }) => {
+//   return (
+//     <div className="text-amber-500 flex">
+//       {Array.from({ length: 5 }).map((_, i) => (
+//         <Star
+//           key={i}
+//           size={16}
+//           className="fill-amber-500 text-amber-500"
+//         />
+//       ))}
+//     </div>
+//   );
+// };
 
-// ====== Main Component ======
-const Testimonials: React.FC = () => {
-  const [index, setIndex] = useState(0);
-  const [slidesPerView, setSlidesPerView] = useState(2);
+// // ====== Main Component ======
+// const Testimonials: React.FC = () => {
+//   const [index, setIndex] = useState(0);
+//   const [slidesPerView, setSlidesPerView] = useState(2);
 
-  const autoplayRef = useRef<(() => void) | null>(null);
-  const hoverRef = useRef(false);
+//   const autoplayRef = useRef<(() => void) | null>(null);
+//   const hoverRef = useRef(false);
 
-  // responsive slides count
-  useEffect(() => {
-    const calcSlides = () => {
-      if (window.innerWidth < 768) {
-        setSlidesPerView(1);
-      } else if (window.innerWidth < 1280) {
-        setSlidesPerView(1);
-      } else {
-        setSlidesPerView(2);
-      }
-    };
-    calcSlides();
-    window.addEventListener("resize", calcSlides);
-    return () => window.removeEventListener("resize", calcSlides);
-  }, []);
+//   // responsive slides count
+//   useEffect(() => {
+//     const calcSlides = () => {
+//       if (window.innerWidth < 768) {
+//         setSlidesPerView(1);
+//       } else if (window.innerWidth < 1280) {
+//         setSlidesPerView(1);
+//       } else {
+//         setSlidesPerView(2);
+//       }
+//     };
+//     calcSlides();
+//     window.addEventListener("resize", calcSlides);
+//     return () => window.removeEventListener("resize", calcSlides);
+//   }, []);
 
-  // autoplay setup
-  useEffect(() => {
-    autoplayRef.current = () => {
-      setIndex((prev) => (prev + 1) % testimonials.length);
-    };
+//   // autoplay setup
+//   useEffect(() => {
+//     autoplayRef.current = () => {
+//       setIndex((prev) => (prev + 1) % testimonials.length);
+//     };
 
-    const tick = () => {
-      if (!hoverRef.current && autoplayRef.current) {
-        autoplayRef.current();
-      }
-    };
+//     const tick = () => {
+//       if (!hoverRef.current && autoplayRef.current) {
+//         autoplayRef.current();
+//       }
+//     };
 
-    const interval = setInterval(tick, 3000);
-    return () => clearInterval(interval);
-  }, []);
+//     const interval = setInterval(tick, 3000);
+//     return () => clearInterval(interval);
+//   }, []);
 
-  useEffect(() => {
-    setIndex((i) => {
-      const maxIndex = Math.max(0, testimonials.length - slidesPerView);
-      return i > maxIndex ? 0 : i;
-    });
-  }, [slidesPerView]);
+//   useEffect(() => {
+//     setIndex((i) => {
+//       const maxIndex = Math.max(0, testimonials.length - slidesPerView);
+//       return i > maxIndex ? 0 : i;
+//     });
+//   }, [slidesPerView]);
 
-  const prev = () => {
-    setIndex((i) => {
-      const maxIndex = Math.max(0, testimonials.length - slidesPerView);
-      return i <= 0 ? maxIndex : i - 1;
-    });
-  };
+//   const prev = () => {
+//     setIndex((i) => {
+//       const maxIndex = Math.max(0, testimonials.length - slidesPerView);
+//       return i <= 0 ? maxIndex : i - 1;
+//     });
+//   };
 
-  const next = () => {
-    setIndex((i) => {
-      const maxIndex = Math.max(0, testimonials.length - slidesPerView);
-      return i >= maxIndex ? 0 : i + 1;
-    });
-  };
+//   const next = () => {
+//     setIndex((i) => {
+//       const maxIndex = Math.max(0, testimonials.length - slidesPerView);
+//       return i >= maxIndex ? 0 : i + 1;
+//     });
+//   };
 
-  return (
-    <section className="w-full bg-black text-gray-300 py-12 border-t border-gray-800">
-      <div className="mx-auto px-6 max-w-6xl">
-        {/* Header */}
-        <div className="flex items-start justify-between">
-          {/* Left */}
-          <div className="max-w-lg">
-            <div className="flex items-center gap-3 mb-3">
-              <span className="w-2 h-2 rounded-full bg-amber-500 inline-block" />
-              <span className="text-xs uppercase tracking-widest text-gray-400">
-                Our Clients Feedback
-              </span>
-            </div>
-            <h2 className="text-white font-extrabold text-4xl sm:text-5xl leading-tight tracking-tight">
-              <span>What they’re talking</span>
-              <br />
-              <span>about us</span>
-            </h2>
-          </div>
+//   return (
+//     <section className="w-full bg-black text-gray-300 py-12 border-t border-gray-800">
+//       <div className="mx-auto px-6 max-w-6xl">
+//         {/* Header */}
+//         <div className="flex items-start justify-between">
+//           {/* Left */}
+//           <div className="max-w-lg">
+//             <div className="flex items-center gap-3 mb-3">
+//               <span className="w-2 h-2 rounded-full bg-amber-500 inline-block" />
+//               <span className="text-xs uppercase tracking-widest text-gray-400">
+//                 Our Clients Feedback
+//               </span>
+//             </div>
+//             <h2 className="text-white font-extrabold text-4xl sm:text-5xl leading-tight tracking-tight">
+//               <span>What they’re talking</span>
+//               <br />
+//               <span>about us</span>
+//             </h2>
+//           </div>
 
-          {/* Right - Arrows */}
-          <div className="flex items-center gap-3">
-            <button
-              onClick={prev}
-              aria-label="Previous testimonials"
-              className="w-12 h-12 rounded-full bg-gray-900/40 border border-gray-800 flex items-center justify-center hover:bg-gray-800 transition"
-            >
-              <ChevronLeft className="w-5 h-5 text-gray-200" />
-            </button>
+//           {/* Right - Arrows */}
+//           <div className="flex items-center gap-3">
+//             <button
+//               onClick={prev}
+//               aria-label="Previous testimonials"
+//               className="w-12 h-12 rounded-full bg-gray-900/40 border border-gray-800 flex items-center justify-center hover:bg-gray-800 transition"
+//             >
+//               <ChevronLeft className="w-5 h-5 text-gray-200" />
+//             </button>
 
-            <button
-              onClick={next}
-              aria-label="Next testimonials"
-              className="w-12 h-12 rounded-full bg-gray-900/40 border border-gray-800 flex items-center justify-center hover:bg-gray-800 transition"
-            >
-              <ChevronRight className="w-5 h-5 text-gray-200" />
-            </button>
-          </div>
-        </div>
+//             <button
+//               onClick={next}
+//               aria-label="Next testimonials"
+//               className="w-12 h-12 rounded-full bg-gray-900/40 border border-gray-800 flex items-center justify-center hover:bg-gray-800 transition"
+//             >
+//               <ChevronRight className="w-5 h-5 text-gray-200" />
+//             </button>
+//           </div>
+//         </div>
 
-        {/* Carousel */}
-        <div
-          className="relative mt-10"
-          onMouseEnter={() => (hoverRef.current = true)}
-          onMouseLeave={() => (hoverRef.current = false)}
-        >
-          <div className="overflow-hidden">
-            <div
-              className="flex transition-transform duration-700 ease-in-out"
-              style={{
-                transform: `translateX(-${
-                  (index * 100) / testimonials.length
-                }%)`,
-                width: `${(testimonials.length / slidesPerView) * 100}%`,
-              }}
-            >
-              {testimonials.map((t) => (
-                <div
-                  key={t.id}
-                  className="p-6"
-                  style={{
-                    width: `${100 / testimonials.length}%`,
-                    boxSizing: "border-box",
-                  }}
-                >
-                  <article className="relative bg-transparent border border-gray-800 p-8 min-h-[180px]">
-                    {/* Avatar */}
-                    <div className="absolute -top-10 right-8">
-                      <div className="rounded-full bg-white p-1">
-                        <div className="rounded-full border-4 border-amber-500 p-0.5 bg-white">
-                          <div className="rounded-full overflow-hidden w-20 h-20">
-                            <Image
-                              src={t.avatar}
-                              alt={t.name}
-                              width={80}
-                              height={80}
-                              className="object-cover"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+//         {/* Carousel */}
+//         <div
+//           className="relative mt-10"
+//           onMouseEnter={() => (hoverRef.current = true)}
+//           onMouseLeave={() => (hoverRef.current = false)}
+//         >
+//           <div className="overflow-hidden">
+//             <div
+//               className="flex transition-transform duration-700 ease-in-out"
+//               style={{
+//                 transform: `translateX(-${
+//                   (index * 100) / testimonials.length
+//                 }%)`,
+//                 width: `${(testimonials.length / slidesPerView) * 100}%`,
+//               }}
+//             >
+//               {testimonials.map((t) => (
+//                 <div
+//                   key={t.id}
+//                   className="p-6"
+//                   style={{
+//                     width: `${100 / testimonials.length}%`,
+//                     boxSizing: "border-box",
+//                   }}
+//                 >
+//                   <article className="relative bg-transparent border border-gray-800 p-8 min-h-[180px]">
+//                     {/* Avatar */}
+//                     <div className="absolute -top-10 right-8">
+//                       <div className="rounded-full bg-white p-1">
+//                         <div className="rounded-full border-4 border-amber-500 p-0.5 bg-white">
+//                           <div className="rounded-full overflow-hidden w-20 h-20">
+//                             <Image
+//                               src={t.avatar}
+//                               alt={t.name}
+//                               width={80}
+//                               height={80}
+//                               className="object-cover"
+//                             />
+//                           </div>
+//                         </div>
+//                       </div>
+//                     </div>
 
-                    {/* Name */}
-                    <h3 className="text-white font-bold text-lg mb-3">
-                      {t.name}
-                    </h3>
+//                     {/* Name */}
+//                     <h3 className="text-white font-bold text-lg mb-3">
+//                       {t.name}
+//                     </h3>
 
-                    {/* Text */}
-                    <p className="text-gray-400 leading-relaxed">{t.text}</p>
+//                     {/* Text */}
+//                     <p className="text-gray-400 leading-relaxed">{t.text}</p>
 
-                    {/* Stars */}
-                    <div className="mt-6 flex items-center gap-3">
-                      <Stars rating={t.rating} />
-                      <div className="text-sm text-gray-400">
-                        {t.rating} Reviews
-                      </div>
-                    </div>
-                  </article>
-                </div>
-              ))}
-            </div>
-          </div>
+//                     {/* Stars */}
+//                     <div className="mt-6 flex items-center gap-3">
+//                       <Stars rating={t.rating} />
+//                       <div className="text-sm text-gray-400">
+//                         {t.rating} Reviews
+//                       </div>
+//                     </div>
+//                   </article>
+//                 </div>
+//               ))}
+//             </div>
+//           </div>
 
-          {/* Bottom-right floating arrow */}
-          <div className="absolute right-2 bottom-[-24px]">
-            <button
-              onClick={next}
-              className="w-12 h-12 rounded-full border border-amber-500 flex items-center justify-center"
-              aria-label="scroll testimonials"
-            >
-              <Plus className="w-5 h-5 text-amber-500 rotate-45" />
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
+//           {/* Bottom-right floating arrow */}
+//           <div className="absolute right-2 bottom-[-24px]">
+//             <button
+//               onClick={next}
+//               className="w-12 h-12 rounded-full border border-amber-500 flex items-center justify-center"
+//               aria-label="scroll testimonials"
+//             >
+//               <Plus className="w-5 h-5 text-amber-500 rotate-45" />
+//             </button>
+//           </div>
+//         </div>
+//       </div>
+//     </section>
+//   );
+// };
 
-export default Testimonials;
+// export default Testimonials;
 
 
 // import React from 'react'
