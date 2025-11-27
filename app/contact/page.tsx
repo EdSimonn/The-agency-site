@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -16,16 +16,16 @@ const ContactForm = () => {
 
   return (
     <section className="bg-black py-20 px-6 sm:px-12 md:px-20 relative">
-            {/* Decorative Elements */}
-      <motion.div 
+      {/* Decorative Elements */}
+      <motion.div
         animate={{ y: [0, -10, 0] }}
         transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-20 left-1/4 w-2 h-2 rounded-full border border-[#00FF7F] opacity-50"
+        className="absolute top-20 left-1/4 w-2 h-2 rounded-full border border-[#4EE1FF] opacity-50"
       />
-      <motion.div 
+      <motion.div
         animate={{ y: [0, 15, 0] }}
         transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-10 left-[45%] w-1 h-1 bg-[#00FF7F] rounded-full"
+        className="absolute top-10 left-[45%] w-1 h-1 bg-[#4EE1FF] rounded-full"
       />
       <div className="max-w-3xl mx-auto">
         {/* Header Section */}
@@ -34,7 +34,7 @@ const ContactForm = () => {
             Simple Work Process
           </p>
           <h2 className="text-4xl md:text-5xl font-bold leading-tight">
-            Do not hesitate to get in  <br />
+            Do not hesitate to get in <br />
             <span className="text-white">touch with us</span>
           </h2>
         </div>
@@ -46,13 +46,13 @@ const ContactForm = () => {
             <input
               type="text"
               placeholder="Your name"
-              className="w-full p-4 bg-[#1e1e1e] text-gray-300 placeholder-gray-500 border-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500 rounded-none appearance-none"
+              className="w-full p-4 bg-[#1e1e1e] text-gray-300 placeholder-gray-500 border-none rounded-none appearance-none"
               aria-label="Your Name"
             />
             <input
               type="email"
               placeholder="Email address"
-              className="w-full p-4 bg-[#1e1e1e] text-gray-300 placeholder-gray-500 border-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500 rounded-none appearance-none"
+              className="w-full p-4 bg-[#1e1e1e] text-gray-300 placeholder-gray-500 border-none rounded-none appearance-none"
               aria-label="Email Address"
             />
           </div>
@@ -104,19 +104,28 @@ const ContactForm = () => {
             <textarea
               placeholder="Write Comment"
               rows={6}
-              className="w-full p-4 bg-[#1e1e1e] text-gray-300 placeholder-gray-500 border-none focus:ring-1 focus:ring-[#00FF7F] focus:border-green-500 rounded-none appearance-none resize-y"
+              className="w-full p-4 bg-[#1e1e1e] text-gray-300 placeholder-gray-500 border-none rounded-none appearance-none resize-y"
               aria-label="Your Comment"
             ></textarea>
           </div>
 
           {/* Submit Button */}
-          <div className="pt-4 flex justify-center">
+          {/* <div className="pt-4 flex justify-center">
             <button
               type="submit"
               className="w-full md:w-auto px-12 py-4 text-lg font-semibold text-black bg-[#00FF7F] hover:bg-green-600 transition duration-300 shadow-lg shadow-green-500/50"
             >
               Send a Message
             </button>
+          </div> */}
+
+          <div className="pt-4 flex justify-center">
+            <div className="group">
+              <button className="relative overflow-hidden px-12 py-4 text-lg font-semibold text-black bg-[#4EE1FF] transition-all duration-300">
+                <span className="relative z-10">Send a Message</span>
+                <span className="absolute inset-0 bg-white scale-x-0 origin-center transition-transform duration-300 group-hover:scale-x-100"></span>
+              </button>
+            </div>
           </div>
         </form>
       </div>
@@ -125,12 +134,18 @@ const ContactForm = () => {
 };
 // ------------------------------------
 
+// 1. Import Oswald font (it is naturally condensed/tall)
+import { Oswald } from "next/font/google";
+
+// 2. Configure font to be extra bold
+const oswald = Oswald({
+  subsets: ["latin"],
+  weight: "700",
+});
 const ContactPage = () => {
   return (
     <main className="w-full min-h-screen bg-[#111]">
-      {/* HERO SECTION */}
-      <section className="relative h-[80vh] w-full flex items-center">
-        {/* Background Image Layer */}
+      <section className="relative h-[80vh] w-full flex items-center justify-center overflow-hidden">
         <div
           className="absolute inset-0 z-0"
           style={{
@@ -141,22 +156,29 @@ const ContactPage = () => {
           }}
         />
 
-        {/* Content Layer */}
-        <div className="relative z-10 max-w-7xl mx-auto px-6 w-full mt-10">
-          {/* Breadcrumb */}
-          <div className="text-sm md:text-base text-gray-300 mb-2 tracking-wide">
-            <Link href={"/"}>Home</Link>
+        {/* Container for the text */}
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 mt-10 flex flex-col justify-center">
+          {/* Breadcrumb - Aligned to start/left */}
+          <div className="text-sm md:text-base text-gray-300 mb-0 tracking-wide self-start">
+            <Link href={"/"} className="text-[#4EE1FF]">
+              Home
+            </Link>
             <span className="mx-2">•</span>
             <span className="text-white">Contact</span>
           </div>
 
-          {/* Big Title */}
-          <h1 className="text-5xl md:text-7xl font-bold text-white tracking-tight">
-            Contact
+          {/* UPDATED HEADER:
+             1. text-[17.5vw]: This sets the font size to 17.5% of the screen width. 
+                It effectively forces the text to span the width dynamically.
+             2. scale-y-125: Stretches the height by 25% to get that tall look.
+             3. leading-none: Removes vertical gaps.
+          */}
+          <h1
+            className={`${oswald.className} text-white uppercase text-[17.5vw] leading-none tracking-tighter text-center font-bold transform scale-y-125 origin-center mt-0`}
+          >
+            CONTACT
           </h1>
         </div>
-
-        {/* Fade Gradient at Bottom */}
         <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#111] to-transparent z-0" />
       </section>
 

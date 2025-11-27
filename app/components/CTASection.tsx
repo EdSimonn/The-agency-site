@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import React from "react";
 import { motion } from "framer-motion";
@@ -43,10 +43,12 @@ const CTASection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <button className="group relative inline-flex items-center gap-3 bg-[#4EE1FF] text-black font-semibold text-lg px-8 py-4 rounded-full overflow-hidden transition-all duration-300 hover:bg-[#4EE1FF]/90 shadow-[0_0_30px_rgba(78,225,255,0.4)]">
-            Get Started
-            <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
-          </button>
+          <div className="group">
+            <button className="relative overflow-hidden px-12 py-4 text-lg font-semibold text-black bg-[#4EE1FF] transition-all duration-300">
+              <span className="relative z-10">Get Started</span>
+              <span className="absolute inset-0 bg-white scale-x-0 origin-center transition-transform duration-300 group-hover:scale-x-100"></span>
+            </button>
+          </div>
         </motion.div>
       </div>
 
@@ -58,8 +60,6 @@ const CTASection = () => {
 };
 
 export default CTASection;
-
-
 
 // "use client";
 
@@ -138,9 +138,6 @@ export default CTASection;
 // };
 
 // export default CTASection;
-
-
-
 
 // import React from "react";
 // import Image from "next/image";
