@@ -42,7 +42,7 @@ const Footer: React.FC = () => {
                 <a
                   key={idx}
                   href="#"
-                  className="w-12 h-12 rounded-full bg-black flex items-center justify-center transition-all duration-300 shadow-md hover:shadow-[#4EE1FF]/60 hover:bg-[#0a0a0a] hover:text-[#4EE1FF]"
+                  className="w-12 h-12 rounded-full bg-black hover:bg-[#4EE1FF] hover:text-black flex items-center justify-center transition-all duration-300 "
                 >
                   <Icon />
                 </a>
@@ -59,7 +59,7 @@ const Footer: React.FC = () => {
           {/* Contact Info */}
           <div className="max-w-xl">
             <p className="text-gray-400 text-lg mb-4">Let’s start working together</p>
-            <h2 className="text-4xl sm:text-6xl font-extrabold text-white leading-tight hover:text-[#4EE1FF] transition-all duration-300">
+            <h2 className="text-4xl sm:text-6xl font-extrabold text-white leading-tight hover:text-[#4EE1FF] transition-all duration-300 cursor-pointer" >
               help@company.com
             </h2>
           </div>

@@ -21,8 +21,8 @@ export const projects: Project[] = [
     title: "Asus Marketing",
     category: "Digital, Agency",
     // SCENARIO A: This project uses an IMAGE
-    image:
-      "https://images.unsplash.com/photo-1497215728101-856f4ea42174?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+    image: "/images/w-c-u-img-1.png",
+
     services: "Branding • Web Design",
     description: "A custom-crafted digital experience.",
     ctaText: "View Case Study",
@@ -33,8 +33,8 @@ export const projects: Project[] = [
     title: "Urban Shadows",
     category: "Photography",
     // SCENARIO B: This project uses a VIDEO (behaves like a GIF)
-    video:
-      "https://cdn.coverr.co/videos/coverr-walking-in-a-city-at-night-4229/1080p.mp4",
+    image: "/images/w-c-u-img-1.png",
+
     services: "Art Direction • Editorial",
     description: "A showcase of evocative photographic work.",
     ctaText: "Explore Collection",
@@ -45,8 +45,8 @@ export const projects: Project[] = [
     title: "Neon Dreams",
     category: "Landing Page",
     // SCENARIO C: Another Video
-    video:
-      "https://cdn.coverr.co/videos/coverr-abstract-neon-lights-4663/1080p.mp4",
+    image: "/images/w-c-u-img-1.png",
+
     services: "UI/UX Design • Motion",
     description: "A high-conversion landing page.",
     ctaText: "Discover Live Site",
@@ -57,8 +57,7 @@ export const projects: Project[] = [
     title: "Extra Project",
     category: "Web App",
     // SCENARIO D: Another Image
-    image:
-      "https://images.unsplash.com/photo-1506765515384-028b60a970df?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+    image: "/images/w-c-u-img-1.png",
     services: "Web Development • Next.js",
     description: "An extra project to test functionalities.",
     ctaText: "View Project",

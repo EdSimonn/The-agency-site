@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 import React from "react";
 import { motion } from "framer-motion";
@@ -6,75 +6,138 @@ import { ArrowRight } from "lucide-react";
 
 const CTASection = () => {
   return (
-    <section className="relative bg-black text-white py-24 px-6 md:px-16 overflow-hidden">
-      {/* Floating accents */}
-      <motion.div
-        className="absolute top-0 left-1/4 w-2 h-2 rounded-full border border-[#4EE1FF] opacity-30"
-        animate={{ y: [0, -15, 0] }}
-        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        className="absolute bottom-10 right-1/3 w-3 h-3 rounded-full bg-[#4EE1FF] opacity-40"
-        animate={{ y: [0, 20, 0] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-      />
+    <section className="relative bg-black text-white py-24 px-6 overflow-hidden">
+      {/* Glow Background */}
+      <div className="absolute inset-0">
+        <div className="absolute top-1/2 left-1/2 w-[600px] h-[600px] bg-[#4EE1FF]/5 rounded-full blur-[160px] -translate-x-1/2 -translate-y-1/2"></div>
+      </div>
 
-      <div className="max-w-4xl mx-auto text-center relative z-10">
+      <div className="max-w-5xl mx-auto relative z-10 text-center">
+        {/* Heading */}
         <motion.h2
-          className="text-4xl md:text-5xl font-bold mb-6 leading-snug"
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          transition={{ duration: 0.6 }}
+          className="text-4xl md:text-5xl font-bold leading-tight mb-6"
         >
-          Ready to take your digital presence <br /> to the next level?
+          Ready to Bring Your Vision to Life?
+          <br />
+          <span className="text-[#4EE1FF]">Let’s Build Something Great.</span>
         </motion.h2>
 
+        {/* Subtext */}
         <motion.p
-          className="text-gray-400 mb-10 text-lg md:text-xl"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="text-gray-400 max-w-2xl mx-auto text-lg mb-10"
         >
-          Partner with us to build fast, modern, and user-focused websites and apps
-          that drive results for your business.
+          Whether you need a website, a full digital experience, or ongoing
+          support — we’re here to help you grow with quality, professionalism,
+          and results that speak for themselves.
         </motion.p>
 
+        {/* CTA Button */}
         <motion.div
-          className="flex flex-col sm:flex-row justify-center gap-6"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.4 }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <motion.a
-            href="#contact"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="px-8 py-4 rounded-md font-semibold text-black bg-gradient-to-r from-[#4EE1FF] to-[#0ED1FF] shadow-lg transition-all duration-300"
-          >
+          <button className="group relative inline-flex items-center gap-3 bg-[#4EE1FF] text-black font-semibold text-lg px-8 py-4 rounded-full overflow-hidden transition-all duration-300 hover:bg-[#4EE1FF]/90 shadow-[0_0_30px_rgba(78,225,255,0.4)]">
             Get Started
-          </motion.a>
-
-          <motion.a
-            href="#services"
-            whileHover={{ x: 5 }}
-            className="px-8 py-4 rounded-md font-semibold border border-gray-600 text-gray-300 hover:border-[#4EE1FF] hover:text-white transition-all duration-300"
-          >
-            Learn More
-            <ArrowRight className="inline-block ml-2 w-5 h-5" />
-          </motion.a>
+            <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
+          </button>
         </motion.div>
       </div>
 
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-tr from-[#0B0B0B] via-transparent to-[#111111] pointer-events-none" />
+      {/* Decorative lines */}
+      <div className="absolute bottom-10 left-10 w-24 h-px bg-[#4EE1FF]/20"></div>
+      <div className="absolute top-10 right-10 w-32 h-px bg-[#4EE1FF]/20"></div>
     </section>
   );
 };
 
 export default CTASection;
+
+
+
+// "use client";
+
+// import React from "react";
+// import { motion } from "framer-motion";
+// import { ArrowRight } from "lucide-react";
+
+// const CTASection = () => {
+//   return (
+//     <section className="relative bg-black text-white py-24 px-6 md:px-16 overflow-hidden">
+//       {/* Floating accents */}
+//       <motion.div
+//         className="absolute top-0 left-1/4 w-2 h-2 rounded-full border border-[#4EE1FF] opacity-30"
+//         animate={{ y: [0, -15, 0] }}
+//         transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+//       />
+//       <motion.div
+//         className="absolute bottom-10 right-1/3 w-3 h-3 rounded-full bg-[#4EE1FF] opacity-40"
+//         animate={{ y: [0, 20, 0] }}
+//         transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+//       />
+
+//       <div className="max-w-4xl mx-auto text-center relative z-10">
+//         <motion.h2
+//           className="text-4xl md:text-5xl font-bold mb-6 leading-snug"
+//           initial={{ opacity: 0, y: 40 }}
+//           whileInView={{ opacity: 1, y: 0 }}
+//           viewport={{ once: true }}
+//           transition={{ duration: 0.8, ease: "easeOut" }}
+//         >
+//           Ready to take your digital presence <br /> to the next level?
+//         </motion.h2>
+
+//         <motion.p
+//           className="text-gray-400 mb-10 text-lg md:text-xl"
+//           initial={{ opacity: 0, y: 20 }}
+//           whileInView={{ opacity: 1, y: 0 }}
+//           viewport={{ once: true }}
+//           transition={{ duration: 0.8, delay: 0.2 }}
+//         >
+//           Partner with us to build fast, modern, and user-focused websites and apps
+//           that drive results for your business.
+//         </motion.p>
+
+//         <motion.div
+//           className="flex flex-col sm:flex-row justify-center gap-6"
+//           initial={{ opacity: 0 }}
+//           whileInView={{ opacity: 1 }}
+//           viewport={{ once: true }}
+//           transition={{ duration: 0.8, delay: 0.4 }}
+//         >
+//           <motion.a
+//             href="#contact"
+//             whileHover={{ scale: 1.05 }}
+//             whileTap={{ scale: 0.95 }}
+//             className="px-8 py-4 rounded-md font-semibold text-black bg-gradient-to-r from-[#4EE1FF] to-[#0ED1FF] shadow-lg transition-all duration-300"
+//           >
+//             Get Started
+//           </motion.a>
+
+//           <motion.a
+//             href="#services"
+//             whileHover={{ x: 5 }}
+//             className="px-8 py-4 rounded-md font-semibold border border-gray-600 text-gray-300 hover:border-[#4EE1FF] hover:text-white transition-all duration-300"
+//           >
+//             Learn More
+//             <ArrowRight className="inline-block ml-2 w-5 h-5" />
+//           </motion.a>
+//         </motion.div>
+//       </div>
+
+//       {/* Background gradient */}
+//       <div className="absolute inset-0 bg-gradient-to-tr from-[#0B0B0B] via-transparent to-[#111111] pointer-events-none" />
+//     </section>
+//   );
+// };
+
+// export default CTASection;
 
 
 

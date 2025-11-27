@@ -56,11 +56,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
       <div className="mt-6 flex justify-between items-start border-t border-white/10 pt-4">
         <div className="flex flex-col">
           <div className="flex items-center gap-4 overflow-hidden">
-            <h3 className="text-2xl md:text-3xl font-medium text-white group-hover:text-blue-500 transition-colors duration-300">
+            <h3 className="text-2xl md:text-3xl font-medium text-white group-hover:text-[#4EE1FF] transition-colors duration-300">
               {project.title}
             </h3>
 
-            <motion.div className="text-blue-500 opacity-0 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0 transition-all duration-500 ease-out">
+            <motion.div className="text-[#4EE1FF] opacity-0 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0 transition-all duration-500 ease-out">
               <FaArrowRight className="w-5 h-5 -rotate-45 group-hover:rotate-0 transition-transform duration-500" />
             </motion.div>
           </div>

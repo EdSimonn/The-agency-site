@@ -7,7 +7,7 @@ import ProjectCard from "./ProjectCard";
 import { motion } from "framer-motion";
 
 const ProjectsSection = () => {
-  const displayProjects = projects.slice(0, 3);
+  const displayProjects = projects.slice(0, 2);
 
   return (
     <section className="py-24 px-6 md:px-12 lg:px-20 bg-black min-h-screen relative">
@@ -15,12 +15,12 @@ const ProjectsSection = () => {
       <motion.div
         animate={{ y: [0, -10, 0] }}
         transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-20 left-1/4 w-2 h-2 rounded-full border border-[#00FF7F] opacity-50"
+        className="absolute top-20 left-1/4 w-2 h-2 rounded-full border border-[#4EE1FF] opacity-50"
       />
       <motion.div
         animate={{ y: [0, 15, 0] }}
         transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-10 left-[45%] w-1 h-1 bg-[#00FF7F] rounded-full"
+        className="absolute top-10 left-[45%] w-1 h-1 bg-[#4EE1FF] rounded-full"
       />
 
       {/* Header */}
