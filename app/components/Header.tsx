@@ -50,7 +50,7 @@ export default function HeroNav() {
       </div>
 
       {/* HERO CONTENT */}
-      <div className="relative z-20 flex flex-col items-center justify-center py-[24vh] px-4 md:px-6 text-center">
+      <div className="relative z-20 flex flex-col items-center justify-center py-[28vh] px-4 md:px-6 text-center">
         <motion.h1
           initial={{ opacity: 0, y: 60 }}
           animate={{ opacity: 1, y: 0 }}

@@ -46,13 +46,13 @@ const ContactForm = () => {
             <input
               type="text"
               placeholder="Your name"
-              className="w-full p-4 bg-[#1e1e1e] text-gray-300 placeholder-gray-500 border-none rounded-none appearance-none"
+              className="w-full p-4 bg-[#1e1e1e] text-gray-300 placeholder-gray-500 border-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500 rounded-none appearance-none"
               aria-label="Your Name"
             />
             <input
               type="email"
               placeholder="Email address"
-              className="w-full p-4 bg-[#1e1e1e] text-gray-300 placeholder-gray-500 border-none rounded-none appearance-none"
+              className="w-full p-4 bg-[#1e1e1e] text-gray-300 placeholder-gray-500 border-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500 rounded-none appearance-none"
               aria-label="Email Address"
             />
           </div>
@@ -104,28 +104,27 @@ const ContactForm = () => {
             <textarea
               placeholder="Write Comment"
               rows={6}
-              className="w-full p-4 bg-[#1e1e1e] text-gray-300 placeholder-gray-500 border-none rounded-none appearance-none resize-y"
+              className="w-full p-4 bg-[#1e1e1e] text-gray-300 placeholder-gray-500 border-none focus:ring-1 focus:ring-[#00FF7F] focus:border-green-500 rounded-none appearance-none resize-y"
               aria-label="Your Comment"
             ></textarea>
           </div>
 
           {/* Submit Button */}
-          {/* <div className="pt-4 flex justify-center">
+          <div className="pt-4 flex justify-center">
             <button
               type="submit"
-              className="w-full md:w-auto px-12 py-4 text-lg font-semibold text-black bg-[#00FF7F] hover:bg-green-600 transition duration-300 shadow-lg shadow-green-500/50"
+              className=" group relative overflow-hidden w-full md:w-auto px-12 py-4 text-lg font-semibold text-black bg-[#4EE1FF] transition duration-300 "
             >
-              Send a Message
+              <span className="relative z-10">Send a Message</span>
+              <span className="absolute inset-0 bg-white scale-x-0 origin-center transition-transform duration-300 group-hover:scale-x-100"></span>
             </button>
-          </div> */}
 
-          <div className="pt-4 flex justify-center">
-            <div className="group">
-              <button className="relative overflow-hidden px-12 py-4 text-lg font-semibold text-black bg-[#4EE1FF] transition-all duration-300">
+            {/* <div className="group">
+              <button className="w-full md:w-auto relative overflow-hidden px-12 py-4 text-lg font-semibold text-black bg-[#4EE1FF] transition-all duration-300">
                 <span className="relative z-10">Send a Message</span>
                 <span className="absolute inset-0 bg-white scale-x-0 origin-center transition-transform duration-300 group-hover:scale-x-100"></span>
               </button>
-            </div>
+            </div> */}
           </div>
         </form>
       </div>
@@ -145,11 +144,11 @@ const oswald = Oswald({
 const ContactPage = () => {
   return (
     <main className="w-full min-h-screen bg-[#111]">
-      <section className="relative h-[80vh] w-full flex items-center justify-center overflow-hidden">
+      <section className="relative h-[50vh] sm:h-[60vh] md:h-[40vh] lg:h-[70vh] xl:h-[80vh] w-full flex items-center justify-center overflow-hidden">
         <div
           className="absolute inset-0 z-0"
           style={{
-            backgroundImage: "url('/images/page-banner.webp')",
+            backgroundImage: "url('/images/page-banner.png')",
             backgroundSize: "cover",
             backgroundPosition: "center",
             filter: "grayscale(100%) brightness(0.6)",
@@ -174,7 +173,7 @@ const ContactPage = () => {
              3. leading-none: Removes vertical gaps.
           */}
           <h1
-            className={`${oswald.className} text-white uppercase text-[17.5vw] leading-none tracking-tighter text-center font-bold transform scale-y-125 origin-center mt-0`}
+            className={`${oswald.className} text-white uppercase text-[17.5vw] leading-none tracking-tighter text-center font-bold transform scale-y-125 origin-center mt-0 pt-4`}
           >
             CONTACT
           </h1>
@@ -189,58 +188,3 @@ const ContactPage = () => {
 };
 
 export default ContactPage;
-
-// import Link from 'next/link'
-// import React from 'react'
-
-// const ContactPage = () => {
-//   return (
-//     <main className="w-full min-h-screen bg-[#111]">
-//       {/* HERO SECTION
-//          This mimics the image provided: Dark, Grayscale Mountain, Breadcrumbs
-//       */}
-//       <section className="relative h-[80vh] w-full flex items-center">
-//         {/* Background Image Layer */}
-//         <div
-//           className="absolute inset-0 z-0"
-//           style={{
-//             backgroundImage: "url('/images/hero1.jpg')", // Make sure to add an image here!
-//             backgroundSize: "cover",
-//             backgroundPosition: "center",
-//             filter: "grayscale(100%) brightness(0.6)", // Makes it black & white and darker
-//           }}
-//         />
-
-//         {/* Content Layer */}
-//         <div className="relative z-10 max-w-7xl mx-auto px-6 w-full mt-10">
-//           {/* Breadcrumb */}
-//           <div className="text-sm md:text-base text-gray-300 mb-2 tracking-wide">
-//             <Link href={"/"}>Home</Link>
-//             <span className="mx-2">•</span>
-//             <span className="text-white">Contact</span>
-//           </div>
-
-//           {/* Big Title */}
-//           <h1 className="text-5xl md:text-7xl font-bold text-white tracking-tight">
-//             Contact
-//           </h1>
-//         </div>
-
-//         {/* Fade Gradient at Bottom (Optional, for smooth transition) */}
-//         <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#111] to-transparent z-0" />
-//       </section>
-
-//       {/* REST OF PAGE CONTENT */}
-//       <section className="max-w-4xl mx-auto px-6 py-20">
-//         <h2 className="text-3xl font-bold mb-6 text-[#00FF7F]">Our Story</h2>
-//         <p className="text-gray-400 leading-relaxed text-lg">
-//           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Since our
-//           inception, we have been dedicated to pushing the boundaries of digital
-//           innovation...
-//         </p>
-//       </section>
-//     </main>
-//   )
-// }
-
-// export default ContactPage

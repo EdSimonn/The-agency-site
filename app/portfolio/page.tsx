@@ -6,6 +6,7 @@ import ProjectCard from "../components/ProjectCard";
 import { projects } from "../data/projects";
 // 1. Import Oswald font (it is naturally condensed/tall)
 import { Oswald } from "next/font/google";
+import { motion } from "framer-motion";
 
 // 2. Configure font to be extra bold
 const oswald = Oswald({
@@ -17,11 +18,11 @@ const PortfolioPage = () => {
   return (
     <main className="w-full min-h-screen bg-[#111]">
       {/* HERO SECTION */}
-      <section className="relative h-[80vh] w-full flex items-center justify-center overflow-hidden">
+      <section className="relative h-[50vh] sm:h-[60vh] md:h-[40vh] lg:h-[70vh] xl:h-[80vh] w-full flex items-center justify-center overflow-hidden">
         <div
           className="absolute inset-0 z-0"
           style={{
-            backgroundImage: "url('/images/page-banner.webp')",
+            backgroundImage: "url('/images/page-banner.png')",
             backgroundSize: "cover",
             backgroundPosition: "center",
             filter: "grayscale(100%) brightness(0.6)",
@@ -46,7 +47,7 @@ const PortfolioPage = () => {
              3. leading-none: Removes vertical gaps.
           */}
           <h1
-            className={`${oswald.className} text-white uppercase text-[17.5vw] leading-none tracking-tighter text-center font-bold transform scale-y-125 origin-center mt-0`}
+            className={`${oswald.className} text-white uppercase text-[17.5vw] leading-none tracking-tighter text-center font-bold transform scale-y-125 origin-center mt-0 pt-4`}
           >
             PORTFOLIO
           </h1>

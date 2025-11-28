@@ -12,6 +12,7 @@ import WhyChooseUs from "./components/WhyChooseUs";
 // import LeadForm from "./components/LeadForm";
 import Process from "./components/Process";
 import About from "./components/About";
+import SlidingBanner from "./components/SlidingBanner";
 
 export default function Home() {
   return (
@@ -22,9 +23,10 @@ export default function Home() {
       <About/>
       <Services />
       <Projects />
+      <SlidingBanner/>
+      {/* <Testimonials /> */}
       <WhyChooseUs />
       <Process />
-      {/* <Testimonials /> */}
       <CTASection />
       {/* <LeadForm/>
       <FAQ /> */}

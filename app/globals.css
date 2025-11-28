@@ -38,6 +38,31 @@ body {
   transform-style: preserve-3d;
 }
 
+@keyframes slider {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-slider {
+  animation: slider 15s linear infinite;
+}
+
+/* @keyframes slide {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-slide {
+  animation: slide 12s linear infinite;
+} */
 
 /* 
 .perspective {

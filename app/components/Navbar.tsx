@@ -74,7 +74,7 @@ export default function Navbar() {
                   initial={{ opacity: 0, x: 40 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.3 }}
-                  className="hover:text-[#3882F6] cursor-pointer"
+                  className="hover:text-[#4EE1FF] transition-all duration-500 cursor-pointer"
                 >
                   <Link href={item.href} onClick={() => setMenuOpen(false)}>
                     {item.name}
