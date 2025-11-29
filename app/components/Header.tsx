@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react"; // ⬅️ Import useRef
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 
+// Slideshow data
 const slides = [
   { video: "/videos/hero1.mp4", img: "/images/hero1.png" },
   { video: "/videos/hero2.mp4", img: "/images/hero2.png" },
@@ -12,71 +13,101 @@ const slides = [
 
 export default function HeroNav() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [fade, setFade] = useState(false);
   const [isCtaHovered, setIsCtaHovered] = useState(false);
 
-  const videoRef = useRef<HTMLVideoElement | null>(null);
+  // 1. Create a ref array to hold references to all video elements
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
-  // FIXED: iPhone-safe video switching
+  // 2. Timer Effect (Controls which video is visible)
   useEffect(() => {
-    const interval = setInterval(() => {
-      setFade(true);
-
-      setTimeout(() => {
-        const next = (activeIndex + 1) % slides.length;
-        const nextVideo = slides[next].video;
-
-        if (videoRef.current) {
-          videoRef.current.src = nextVideo;
-          videoRef.current.load();
-
-          // required specifically for iPhone
-          videoRef.current.play().catch(() => {});
-        }
-
-        setActiveIndex(next);
-        setFade(false);
-      }, 700);
-    }, 8000);
-
+    const interval = setInterval(
+      () => setActiveIndex((prev) => (prev + 1) % slides.length),
+      8000
+    );
     return () => clearInterval(interval);
-  }, [activeIndex]);
+  }, []);
+
+  // 3. Playback Effect (Controls video state)
+  useEffect(() => {
+    // 3a. Start the current active video
+    const activeVideo = videoRefs.current[activeIndex];
+
+    // Set a small delay before playing to ensure the video element is ready
+    // This can help on slow mobile connections.
+    const timeoutId = setTimeout(() => {
+      if (activeVideo) {
+        // Ensure it's muted, then attempt to play
+        activeVideo.muted = true;
+
+        // Use activeVideo.currentTime = 0 to ensure it always starts from the beginning
+        activeVideo.currentTime = 0;
+
+        activeVideo.play().catch((error) => {
+          // This catch handles the common "play() failed because the user didn't interact"
+          console.warn(
+            "Autoplay was prevented (requires user interaction or iOS is too strict):",
+            error
+          );
+        });
+      }
+    }, 50);
+
+    // 3b. Pause non-active videos to save resources
+    videoRefs.current.forEach((video, index) => {
+      if (video && index !== activeIndex) {
+        // Pause and reset the video position to ensure a seamless fade-in next time
+        video.pause();
+        video.currentTime = 0;
+      }
+    });
+
+    return () => clearTimeout(timeoutId);
+  }, [activeIndex]); // Re-run whenever the active slide changes
 
   return (
     <section className="relative w-full text-white overflow-hidden">
-
-      {/* BACKGROUND */}
+      {/* BACKGROUND LAYERS */}
       <div className="absolute inset-0 -z-10 bg-black">
-
-        {/* Fallback Image (always shows) */}
+        {/* GLOBAL FALLBACK IMAGE */}
         <Image
-          src={slides[activeIndex].img}
+          src={slides[0].img}
           alt="Background fallback"
           fill
           priority
-          className="object-cover -z-20 transition-opacity duration-700"
+          sizes="100vw"
+          className="object-cover -z-20"
         />
 
-        {/* FIXED: One video element only */}
-        <video
-          ref={videoRef}
-          src={slides[0].video}
-          poster={slides[0].img}
-          muted
-          autoPlay
-          playsInline
-          loop
-          preload="auto"
-          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
-            fade ? "opacity-0" : "opacity-100"
-          }`}
-        />
+        {/* FADE-IN VIDEO STACK */}
+        {slides.map((slide, index) => (
+          <video
+            key={slide.video}
+            src={slide.video}
+            poster={slide.img}
+            // 4. ATTACH REF FIX: Use curly braces to prevent implicit return
+            ref={(el) => {
+              videoRefs.current[index] = el;
+            }}
+            // Re-added loop attribute
+            loop={true}
+            muted={true}
+            playsInline
+            preload="auto"
+            // Removed defaultMuted={true}
+            className={`
+              absolute inset-0 w-full h-full object-cover
+              transition-opacity duration-1000 ease-in-out
+              ${index === activeIndex ? "opacity-100 z-10" : "opacity-0 z-0"}
+            `}
+          />
+        ))}
 
-        <div className="absolute inset-0 bg-black/50 z-10" />
+        {/* DARK OVERLAY */}
+        <div className="absolute inset-0 bg-black/50 z-20" />
       </div>
 
       {/* HERO CONTENT */}
-      <div className="relative z-20 flex flex-col items-center justify-center py-[28vh] px-4 md:px-6 text-center">
+      <div className="relative z-30 flex flex-col items-center justify-center py-[28vh] px-4 md:px-6 text-center">
         <motion.h1
           initial={{ opacity: 0, y: 60 }}
           animate={{ opacity: 1, y: 0 }}
@@ -87,12 +118,12 @@ export default function HeroNav() {
           JUST A{" "}
           <span className="mx-2 md:mx-3 text-[#4EE1FF] drop-shadow-[0_0_10px_rgba(78,225,255,0.8)]">
             TYPICAL
-          </span>
+          </span>{" "}
           <br />
           <span className="inline-flex flex-wrap items-center justify-center gap-x-3 md:gap-x-5">
             <span>WEB AGENCY</span>
 
-            {/* CTA BUTTON — back and visible again */}
+            {/* CTA CIRCLE BUTTON */}
             <motion.button
               className={`
                 w-12 h-12 md:w-16 md:h-16 rounded-full 
@@ -108,7 +139,7 @@ export default function HeroNav() {
                 animate={{
                   rotate: isCtaHovered ? 0 : 45,
                   textShadow: isCtaHovered
-                    ? "0 0 8px rgba(78,225,255,0.8)"
+                    ? "0 0 8px rgba(78,225,255,0.8), 0 0 16px rgba(78,225,255,0.5)"
                     : "0 0 0 rgba(0,0,0,0)",
                 }}
                 transition={{ duration: 0.3, ease: "easeOut" }}
@@ -130,13 +161,21 @@ export default function HeroNav() {
         >
           {[1, 2].map((i) => (
             <div key={i} className="flex">
-              <span className="mx-4 md:mx-8">STRATEGY _ DESIGN _ BUILD _ DEPLOY</span>
+              <span className="mx-4 md:mx-8">
+                STRATEGY _ DESIGN _ BUILD _ DEPLOY
+              </span>
               <span className="mx-4 md:mx-8 text-[#4EE1FF]">✦</span>
-              <span className="mx-4 md:mx-8">ELEVATING YOUR DIGITAL PRESENCE</span>
+              <span className="mx-4 md:mx-8">
+                ELEVATING YOUR DIGITAL PRESENCE
+              </span>
               <span className="mx-4 md:mx-8 text-[#4EE1FF]">✦</span>
-              <span className="mx-4 md:mx-8">DRIVING GROWTH THROUGH TECHNOLOGY</span>
+              <span className="mx-4 md:mx-8">
+                DRIVING GROWTH THROUGH TECHNOLOGY
+              </span>
               <span className="mx-4 md:mx-8 text-[#4EE1FF]">✦</span>
-              <span className="mx-4 md:mx-8">FUTURE-PROOFING YOUR INVESTMENT</span>
+              <span className="mx-4 md:mx-8">
+                FUTURE-PROOFING YOUR INVESTMENT
+              </span>
               <span className="mx-4 md:mx-8 text-[#4EE1FF]">✦</span>
             </div>
           ))}
@@ -145,7 +184,6 @@ export default function HeroNav() {
     </section>
   );
 }
-
 
 // "use client";
 
@@ -229,9 +267,9 @@ export default function HeroNav() {
 //             {/* CTA CIRCLE BUTTON */}
 //             <motion.button
 //               className={`
-//                 w-12 h-12 md:w-16 md:h-16 rounded-full 
-//                 flex items-center justify-center 
-//                 transition-colors duration-300 
+//                 w-12 h-12 md:w-16 md:h-16 rounded-full
+//                 flex items-center justify-center
+//                 transition-colors duration-300
 //                 ${isCtaHovered ? "bg-[#3BC3E6]" : "bg-[#4EE1FF]"}
 //               `}
 //               onMouseEnter={() => setIsCtaHovered(true)}
@@ -279,7 +317,6 @@ export default function HeroNav() {
 //     </section>
 //   );
 // }
-
 
 // "use client";
 // import { useState, useEffect, useRef } from "react";
@@ -406,7 +443,6 @@ export default function HeroNav() {
 //   );
 // }
 
-
 // "use client";
 // import { useState, useEffect } from "react";
 // import { motion } from "framer-motion";
@@ -530,16 +566,16 @@ export default function HeroNav() {
 
 // When my site is hosted on vercel the videos bg are not showing on my mobile and i dunno why , pls that is my code VscRunAbove, and also the in the image provided m file structure and accurate naming
 
-// my site has images and videos as background or just part of the code and Layout, but when it loads the images and vieos do not load quickly and i need it to load snappy and quickly so my site bahaves professionally, not i am using next js tsx pls help me   
+// my site has images and videos as background or just part of the code and Layout, but when it loads the images and vieos do not load quickly and i need it to load snappy and quickly so my site bahaves professionally, not i am using next js tsx pls help me
 
 // "use client";
 // import { motion } from "framer-motion";
-// import { 
-//   Code, 
-//   Layout, 
-//   Smartphone, 
-//   Globe, 
-//   Database, 
+// import {
+//   Code,
+//   Layout,
+//   Smartphone,
+//   Globe,
+//   Database,
 //   // Cpu is unused, removed for clean linting
 // } from "lucide-react";
 // import { ReactNode } from "react"; // Import ReactNode for the icon type
@@ -557,7 +593,7 @@ export default function HeroNav() {
 //     title: "Web Architecture",
 //     description: "High-performance websites built on Next.js. We prioritize SEO, speed, and scalability.",
 //     icon: <Globe className="w-8 h-8" />,
-//     colSpan: "md:col-span-2", 
+//     colSpan: "md:col-span-2",
 //   },
 //   {
 //     title: "UI/UX Design",
@@ -581,19 +617,19 @@ export default function HeroNav() {
 //     title: "Custom Software",
 //     description: "Tailored algorithmic solutions to automate complex business logic.",
 //     icon: <Code className="w-8 h-8" />,
-//     colSpan: "md:col-span-3", 
+//     colSpan: "md:col-span-3",
 //   },
 // ];
 
 // export default function ServicesSection() {
 //   return (
 //     <section className="relative w-full bg-black py-24 md:py-32 px-6">
-      
+
 //       {/* BACKGROUND GLOW */}
 //       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-full bg-blue-900/20 blur-[120px] -z-10 opacity-50 pointer-events-none" />
 
 //       <div className="max-w-7xl mx-auto">
-        
+
 //         {/* HEADER */}
 //         <div className="mb-20 flex flex-col md:flex-row md:items-end justify-between gap-6">
 //           <motion.div
@@ -700,8 +736,6 @@ export default function HeroNav() {
 //     </svg>
 //   );
 // }
-
-
 
 // "use client";
 // import { useState, useEffect } from "react";
