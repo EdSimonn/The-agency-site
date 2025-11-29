@@ -1,11 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 
-// Slideshow data
 const slides = [
   { video: "/videos/hero1.mp4", img: "/images/hero1.png" },
   { video: "/videos/hero2.mp4", img: "/images/hero2.png" },
@@ -13,55 +12,71 @@ const slides = [
 
 export default function HeroNav() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [fade, setFade] = useState(false);
   const [isCtaHovered, setIsCtaHovered] = useState(false);
 
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  // FIXED: iPhone-safe video switching
   useEffect(() => {
-    const interval = setInterval(
-      () => setActiveIndex((prev) => (prev + 1) % slides.length),
-      8000
-    );
+    const interval = setInterval(() => {
+      setFade(true);
+
+      setTimeout(() => {
+        const next = (activeIndex + 1) % slides.length;
+        const nextVideo = slides[next].video;
+
+        if (videoRef.current) {
+          videoRef.current.src = nextVideo;
+          videoRef.current.load();
+
+          // required specifically for iPhone
+          videoRef.current.play().catch(() => {});
+        }
+
+        setActiveIndex(next);
+        setFade(false);
+      }, 700);
+    }, 8000);
+
     return () => clearInterval(interval);
-  }, []);
+  }, [activeIndex]);
 
   return (
     <section className="relative w-full text-white overflow-hidden">
-      {/* BACKGROUND LAYERS */}
+
+      {/* BACKGROUND */}
       <div className="absolute inset-0 -z-10 bg-black">
 
-        {/* GLOBAL FALLBACK IMAGE */}
+        {/* Fallback Image (always shows) */}
         <Image
-          src={slides[0].img}
+          src={slides[activeIndex].img}
           alt="Background fallback"
           fill
           priority
-          className="object-cover -z-20"
+          className="object-cover -z-20 transition-opacity duration-700"
         />
 
-        {/* FADE-IN VIDEO STACK */}
-        {slides.map((slide, index) => (
-          <video
-            key={slide.video}
-            src={slide.video}
-            poster={slide.img}
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
-            className={`
-              absolute inset-0 w-full h-full object-cover
-              transition-opacity duration-1000 ease-in-out
-              ${index === activeIndex ? "opacity-100 z-10" : "opacity-0 z-0"}
-            `}
-          />
-        ))}
+        {/* FIXED: One video element only */}
+        <video
+          ref={videoRef}
+          src={slides[0].video}
+          poster={slides[0].img}
+          muted
+          autoPlay
+          playsInline
+          loop
+          preload="auto"
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
+            fade ? "opacity-0" : "opacity-100"
+          }`}
+        />
 
-        {/* DARK OVERLAY */}
-        <div className="absolute inset-0 bg-black/50 z-20" />
+        <div className="absolute inset-0 bg-black/50 z-10" />
       </div>
 
       {/* HERO CONTENT */}
-      <div className="relative z-30 flex flex-col items-center justify-center py-[28vh] px-4 md:px-6 text-center">
+      <div className="relative z-20 flex flex-col items-center justify-center py-[28vh] px-4 md:px-6 text-center">
         <motion.h1
           initial={{ opacity: 0, y: 60 }}
           animate={{ opacity: 1, y: 0 }}
@@ -72,12 +87,12 @@ export default function HeroNav() {
           JUST A{" "}
           <span className="mx-2 md:mx-3 text-[#4EE1FF] drop-shadow-[0_0_10px_rgba(78,225,255,0.8)]">
             TYPICAL
-          </span>{" "}
+          </span>
           <br />
           <span className="inline-flex flex-wrap items-center justify-center gap-x-3 md:gap-x-5">
             <span>WEB AGENCY</span>
 
-            {/* CTA CIRCLE BUTTON */}
+            {/* CTA BUTTON — back and visible again */}
             <motion.button
               className={`
                 w-12 h-12 md:w-16 md:h-16 rounded-full 
@@ -93,7 +108,7 @@ export default function HeroNav() {
                 animate={{
                   rotate: isCtaHovered ? 0 : 45,
                   textShadow: isCtaHovered
-                    ? "0 0 8px rgba(78,225,255,0.8), 0 0 16px rgba(78,225,255,0.5)"
+                    ? "0 0 8px rgba(78,225,255,0.8)"
                     : "0 0 0 rgba(0,0,0,0)",
                 }}
                 transition={{ duration: 0.3, ease: "easeOut" }}
@@ -130,6 +145,140 @@ export default function HeroNav() {
     </section>
   );
 }
+
+
+// "use client";
+
+// import { useState, useEffect } from "react";
+// import { motion } from "framer-motion";
+// import { ArrowRight } from "lucide-react";
+// import Image from "next/image";
+
+// // Slideshow data
+// const slides = [
+//   { video: "/videos/hero1.mp4", img: "/images/hero1.png" },
+//   { video: "/videos/hero2.mp4", img: "/images/hero2.png" },
+// ];
+
+// export default function HeroNav() {
+//   const [activeIndex, setActiveIndex] = useState(0);
+//   const [isCtaHovered, setIsCtaHovered] = useState(false);
+
+//   useEffect(() => {
+//     const interval = setInterval(
+//       () => setActiveIndex((prev) => (prev + 1) % slides.length),
+//       8000
+//     );
+//     return () => clearInterval(interval);
+//   }, []);
+
+//   return (
+//     <section className="relative w-full text-white overflow-hidden">
+//       {/* BACKGROUND LAYERS */}
+//       <div className="absolute inset-0 -z-10 bg-black">
+
+//         {/* GLOBAL FALLBACK IMAGE */}
+//         <Image
+//           src={slides[0].img}
+//           alt="Background fallback"
+//           fill
+//           priority
+//           className="object-cover -z-20"
+//         />
+
+//         {/* FADE-IN VIDEO STACK */}
+//         {slides.map((slide, index) => (
+//           <video
+//             key={slide.video}
+//             src={slide.video}
+//             poster={slide.img}
+//             autoPlay
+//             muted
+//             loop
+//             playsInline
+//             preload="auto"
+//             className={`
+//               absolute inset-0 w-full h-full object-cover
+//               transition-opacity duration-1000 ease-in-out
+//               ${index === activeIndex ? "opacity-100 z-10" : "opacity-0 z-0"}
+//             `}
+//           />
+//         ))}
+
+//         {/* DARK OVERLAY */}
+//         <div className="absolute inset-0 bg-black/50 z-20" />
+//       </div>
+
+//       {/* HERO CONTENT */}
+//       <div className="relative z-30 flex flex-col items-center justify-center py-[28vh] px-4 md:px-6 text-center">
+//         <motion.h1
+//           initial={{ opacity: 0, y: 60 }}
+//           animate={{ opacity: 1, y: 0 }}
+//           transition={{ duration: 0.9, ease: "easeOut", delay: 0.2 }}
+//           className="max-w-5xl text-4xl md:text-6xl lg:text-7xl font-bold tracking-wider leading-tight"
+//         >
+//           MORE THAN <br />
+//           JUST A{" "}
+//           <span className="mx-2 md:mx-3 text-[#4EE1FF] drop-shadow-[0_0_10px_rgba(78,225,255,0.8)]">
+//             TYPICAL
+//           </span>{" "}
+//           <br />
+//           <span className="inline-flex flex-wrap items-center justify-center gap-x-3 md:gap-x-5">
+//             <span>WEB AGENCY</span>
+
+//             {/* CTA CIRCLE BUTTON */}
+//             <motion.button
+//               className={`
+//                 w-12 h-12 md:w-16 md:h-16 rounded-full 
+//                 flex items-center justify-center 
+//                 transition-colors duration-300 
+//                 ${isCtaHovered ? "bg-[#3BC3E6]" : "bg-[#4EE1FF]"}
+//               `}
+//               onMouseEnter={() => setIsCtaHovered(true)}
+//               onMouseLeave={() => setIsCtaHovered(false)}
+//               onClick={() => console.log("Success CTA Clicked")}
+//             >
+//               <motion.span
+//                 animate={{
+//                   rotate: isCtaHovered ? 0 : 45,
+//                   textShadow: isCtaHovered
+//                     ? "0 0 8px rgba(78,225,255,0.8), 0 0 16px rgba(78,225,255,0.5)"
+//                     : "0 0 0 rgba(0,0,0,0)",
+//                 }}
+//                 transition={{ duration: 0.3, ease: "easeOut" }}
+//                 className="flex items-center justify-center"
+//               >
+//                 <ArrowRight size={24} className="text-black md:w-7 md:h-7" />
+//               </motion.span>
+//             </motion.button>
+//           </span>
+//         </motion.h1>
+//       </div>
+
+//       {/* MARQUEE */}
+//       <div className="w-full border-t border-white/10 overflow-hidden absolute bottom-0 z-30">
+//         <motion.div
+//           className="flex whitespace-nowrap uppercase text-xs md:text-sm tracking-widest py-3 md:py-4 bg-black/25 backdrop-blur-sm"
+//           animate={{ x: ["0%", "-50%"] }}
+//           transition={{ repeat: Infinity, ease: "linear", duration: 20 }}
+//         >
+//           {[1, 2].map((i) => (
+//             <div key={i} className="flex">
+//               <span className="mx-4 md:mx-8">STRATEGY _ DESIGN _ BUILD _ DEPLOY</span>
+//               <span className="mx-4 md:mx-8 text-[#4EE1FF]">✦</span>
+//               <span className="mx-4 md:mx-8">ELEVATING YOUR DIGITAL PRESENCE</span>
+//               <span className="mx-4 md:mx-8 text-[#4EE1FF]">✦</span>
+//               <span className="mx-4 md:mx-8">DRIVING GROWTH THROUGH TECHNOLOGY</span>
+//               <span className="mx-4 md:mx-8 text-[#4EE1FF]">✦</span>
+//               <span className="mx-4 md:mx-8">FUTURE-PROOFING YOUR INVESTMENT</span>
+//               <span className="mx-4 md:mx-8 text-[#4EE1FF]">✦</span>
+//             </div>
+//           ))}
+//         </motion.div>
+//       </div>
+//     </section>
+//   );
+// }
 
 
 // "use client";
