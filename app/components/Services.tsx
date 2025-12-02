@@ -1,133 +1,741 @@
 "use client";
 
 import { motion, Variants } from "framer-motion";
-import { Code, Brush, Smartphone, Megaphone } from "lucide-react";
+import { Code, Brush, Palette, Bot, LineChart } from "lucide-react";
+import React from "react"; // <-- Import useState and useEffect
+import { SplitText } from "./SplitText";
 
-// --- Service Data ---
+// --- Service Data (Keeping your original data) ---
 const services = [
   {
     title: "Website <br/> Development",
-    icon: <Code className="w-12 h-12 text-[#4EE1FF] drop-shadow-[0_0_10px_rgba(78,225,255,0.8)]" />,
-    description: "Build high-performing, visually stunning websites that drive results.",
+    icon: (
+      <Code className="w-12 h-12 text-[#4EE1FF] drop-shadow-[0_0_10px_rgba(78,225,255,0.8)]" />
+    ),
+    description:
+      "Custom-coded, lightning-fast websites engineered to turn visitors into customers.",
   },
   {
     title: "Website <br/> Redesign",
-    icon: <Brush className="w-12 h-12 text-[#4EE1FF] drop-shadow-[0_0_10px_rgba(78,225,255,0.8)]" />,
-    description: "Creative and impactful design solutions for your brand.",
+    icon: (
+      <Brush className="w-12 h-12 text-[#4EE1FF] drop-shadow-[0_0_10px_rgba(78,225,255,0.8)]" />
+    ),
+    description:
+      "Modernize your legacy site with improved UX that aligns with your current business goals.",
   },
   {
     title: "Branding",
-    icon: <Smartphone className="w-12 h-12 text-[#4EE1FF] drop-shadow-[0_0_10px_rgba(78,225,255,0.8)]" />,
-    description: "Intuitive and powerful mobile apps for iOS and Android.",
+    icon: (
+      <Palette className="w-12 h-12 text-[#4EE1FF] drop-shadow-[0_0_10px_rgba(78,225,255,0.8)]" />
+    ),
+    description:
+      "We forge cohesive visual identities and brand voices that distinguish you from competitors.",
   },
   {
     title: "AI Workflow <br/> Automation",
-    icon: <Megaphone className="w-12 h-12 text-[#4EE1FF] drop-shadow-[0_0_10px_rgba(78,225,255,0.8)]" />,
-    description: "Strategies to boost your online presence and drive traffic.",
+    icon: (
+      <Bot className="w-12 h-12 text-[#4EE1FF] drop-shadow-[0_0_10px_rgba(78,225,255,0.8)]" />
+    ),
+    description:
+      "Eliminate bottlenecks with custom AI solutions that automate repetitive tasks.",
+  },
+  {
+    title: "SEO <br/> Optimization",
+    icon: (
+      <LineChart className="w-12 h-12 text-[#4EE1FF] drop-shadow-[0_0_10px_rgba(78,225,255,0.8)]" />
+    ),
+    description:
+      "Data-driven strategies to climb search rankings and drive sustainable organic traffic.",
   },
 ];
 
-// --- Framer Motion Variants ---
+// -------------------- HEADER TEXT ANIMATION (Split Text / Unravel) ------------------------
+
+// Variants for the letter container
+// SplitText component with the hydration fix and text wrapping fix
+// Variants for simple sliding header text
+const slideInUp: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+};
+
+// -------------------- CARD ANIMATION (Original Logic) ------------------------
+
+// Custom Function to get Directional Offset
+const getDirectionalOffset = (index: number) => {
+  // Cycles through 4 directions: 0: Left, 1: Top, 2: Right, 3: Bottom
+  const direction = index % 4;
+  const offset = 80; // Distance to slide from (in pixels)
+
+  switch (direction) {
+    case 0:
+      return { x: -offset, y: 0 }; // Left
+    case 1:
+      return { x: 0, y: -offset }; // Top
+    case 2:
+      return { x: offset, y: 0 }; // Right
+    case 3:
+      return { x: 0, y: offset }; // Bottom
+    default:
+      return { x: 0, y: 0 };
+  }
+};
+
+// Framer Motion Variants for the card container (stagger)
 const containerVariants: Variants = {
   hidden: {},
-  show: { transition: { staggerChildren: 0.2 } },
+  show: { transition: { staggerChildren: 0.15 } },
 };
 
+// Framer Motion Variants for individual cards (directional slide)
 const cardVariants: Variants = {
-  hidden: { opacity: 0, y: 40 },
-  show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 120, damping: 15 } },
-};
-
-const iconVariants: Variants = {
-  hidden: { rotate: -15, scale: 0.8, opacity: 0 },
-  show: { rotate: 0, scale: 1, opacity: 1, transition: { type: "spring", stiffness: 120 } },
+  hidden: (direction: { x: number; y: number }) => ({
+    opacity: 0,
+    x: direction.x,
+    y: direction.y,
+  }),
+  show: {
+    opacity: 1,
+    x: 0,
+    y: 0,
+    transition: {
+      duration: 0.7,
+      ease: [0.25, 1, 0.5, 1], // Smooth, cinematic ease
+    },
+  },
 };
 
 // -------------------- COMPONENT ------------------------
 export default function Services() {
   return (
-    <section className="bg-black text-white py-20 px-6 md:px-16 relative">
-      {/* Decorative Floating Elements */}
+    <section className="bg-black text-white py-20 px-6 md:px-16 relative overflow-hidden">
+      {/* Decorative Floating Elements (Note: These are also generating random transform values 
+          but Framer Motion handles it by only running the animation logic client-side
+          on the initial hydration, so they typically don't cause an issue unless 
+          the animation starts immediately on load, which these transition props allow.) */}
       <motion.div
-        animate={{ y: [0, -10, 0] }}
+        animate={{ translateY: [0, -10, 0] }}
         transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-20 left-1/4 w-2 h-2 rounded-full border border-[#4EE1FF] opacity-50"
+        className="absolute top-20 left-1/4 w-2 h-2 rounded-full border border-[#4EE1FF] opacity-50 will-change-transform"
       />
       <motion.div
-        animate={{ y: [0, 15, 0] }}
+        animate={{ translateY: [0, 15, 0] }}
         transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-10 left-[45%] w-1 h-1 bg-[#4EE1FF] rounded-full"
+        className="absolute top-10 left-[45%] w-1 h-1 bg-[#4EE1FF] rounded-full will-change-transform"
       />
 
-      {/* Header */}
-      <div className="max-w-6xl mx-auto mb-16">
+      {/* Header Section */}
+      <motion.div
+        className="max-w-6xl mx-auto mb-16"
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.2 }}
+        variants={containerVariants}
+      >
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
           <div className="w-full lg:w-5/8 relative">
-            <p className="uppercase text-gray-400 text-sm tracking-widest mb-3">
+            {/* Animated Top P Tag */}
+            <motion.p
+              className="uppercase text-gray-400 text-sm tracking-widest mb-3"
+              variants={slideInUp}
+            >
               What we’re offering
-            </p>
-            <h2 className="text-3xl sm:text-4xl md:text-4xl lg:text-4xl xl:text-5xl font-bold leading-snug">
-              Services we’re providing to <br className="hidden sm:inline" /> our customers
-            </h2>
+            </motion.p>
+
+            {/* H2 with Split Text Animation, now split into two lines */}
+  <h2 className="text-3xl sm:text-4xl md:text-4xl lg:text-4xl xl:text-5xl font-bold leading-snug">
+  <SplitText text="Services we’re providing to" />
+  <br className="hidden sm:inline" />
+  <SplitText text="our customers" />
+</h2>
           </div>
+
           <div className="w-full lg:w-3/8">
-            <p className="text-gray-400 text-sm md:text-base leading-relaxed">
-              There are many variations of free text passages available, but most have
-              suffered alteration in some form. We focus on crafting effective, visually
-              appealing solutions.
-            </p>
+            {/* Animated Descriptive P Tag */}
+            <motion.p
+              className="text-gray-400 text-sm md:text-base leading-relaxed"
+              variants={slideInUp}
+              transition={{ delay: 0.1 }} // Slightly delayed to follow the top P
+            >
+              There are many variations of free text passages available, but
+              most have suffered alteration in some form. We focus on crafting
+              effective, visually appealing solutions.
+            </motion.p>
           </div>
         </div>
-      </div>
+      </motion.div>
 
-      {/* Service Cards */}
+      {/* Service Cards (Restored Original Logic) */}
       <motion.div
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-7xl mx-auto"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto"
         variants={containerVariants}
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, amount: 0.3 }}
       >
-        {services.map((service, index) => (
-          <motion.div
-            key={index}
-            className="group relative bg-[#0d0d0d] p-10 pb-6 overflow-hidden border border-gray-800 rounded-none transition-all duration-500"
-            variants={cardVariants}
-            whileHover={{ y: -6, boxShadow: "0 0 25px rgba(78,225,255,0.4)" }}
-          >
-            {/* Animated Icon */}
-            <motion.div variants={iconVariants} className="mb-6">
-              {service.icon}
-            </motion.div>
+        {services.map((service, index) => {
+          const directionalOffset = getDirectionalOffset(index);
 
-            {/* TITLE */}
-            <h3
-              className="text-xl font-bold mb-4 text-white leading-snug"
-              dangerouslySetInnerHTML={{ __html: service.title }}
-            />
+          // Tailwind class for col-span-2 on large screens (lg) only for the first card
+          const colSpanClass = index === 0 ? "md:col-span-2" : "";
 
-            {/* DESCRIPTION */}
-            <p className="text-gray-400 text-sm leading-relaxed mb-10">
-              {service.description}
-            </p>
-
-            {/* Overlay Glow */}
+          return (
             <motion.div
-              className="absolute inset-0 pointer-events-none"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 0.05 }}
-              transition={{ duration: 1.5, delay: index * 0.3 }}
+              key={index}
+              custom={directionalOffset}
+              // Combined base classes with the conditional col-span class
+              className={`${colSpanClass} group relative bg-gradient-to-br from-[#0a0a0a] to-[#0d0d0d] p-10 pb-6 overflow-hidden border border-gray-800/80 rounded-lg transition-colors duration-500 will-change-transform`}
+              variants={cardVariants}
+              whileHover={{
+                y: -8,
+                scale: 1.01,
+              }}
             >
-              <div className="absolute right-[-40%] top-0 w-[200%] h-[200%] rotate-[25deg] bg-gradient-to-r from-[#4EE1FF] to-transparent"></div>
+              {/* Icon - Keeping simple opacity transition for visual freshness */}
+              <motion.div
+                className="mb-6"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: index * 0.15 + 0.3 }}
+              >
+                {service.icon}
+              </motion.div>
+
+              {/* TITLE */}
+              <h3
+                className="text-xl font-bold mb-4 text-white leading-snug"
+                dangerouslySetInnerHTML={{ __html: service.title }}
+              />
+
+              {/* DESCRIPTION */}
+              <p className="text-gray-400 text-sm leading-relaxed mb-10">
+                {service.description}
+              </p>
+
+              {/* Blue Border Flash on Hover (CSS-based for smoothness) */}
+              <div className="absolute inset-0 border border-transparent group-hover:border-[#4EE1FF] opacity-0 group-hover:opacity-30 transition-all duration-300 pointer-events-none rounded-lg" />
             </motion.div>
-          </motion.div>
-        ))}
+          );
+        })}
       </motion.div>
     </section>
   );
 }
 
+// "use client";
 
+// import { motion, Variants } from "framer-motion";
+// import { Code, Brush, Palette, Bot, LineChart } from "lucide-react";
+
+// // --- Service Data (Keeping your original data) ---
+// const services = [
+//   {
+//     title: "Website <br/> Development",
+//     icon: (
+//       <Code className="w-12 h-12 text-[#4EE1FF] drop-shadow-[0_0_10px_rgba(78,225,255,0.8)]" />
+//     ),
+//     description:
+//       "Custom-coded, lightning-fast websites engineered to turn visitors into customers.",
+//   },
+//   {
+//     title: "Website <br/> Redesign",
+//     icon: (
+//       <Brush className="w-12 h-12 text-[#4EE1FF] drop-shadow-[0_0_10px_rgba(78,225,255,0.8)]" />
+//     ),
+//     description:
+//       "Modernize your legacy site with improved UX that aligns with your current business goals.",
+//   },
+//   {
+//     title: "Branding",
+//     icon: (
+//       <Palette className="w-12 h-12 text-[#4EE1FF] drop-shadow-[0_0_10px_rgba(78,225,255,0.8)]" />
+//     ),
+//     description:
+//       "We forge cohesive visual identities and brand voices that distinguish you from competitors.",
+//   },
+//   {
+//     title: "AI Workflow <br/> Automation",
+//     icon: (
+//       <Bot className="w-12 h-12 text-[#4EE1FF] drop-shadow-[0_0_10px_rgba(78,225,255,0.8)]" />
+//     ),
+//     description:
+//       "Eliminate bottlenecks with custom AI solutions that automate repetitive tasks.",
+//   },
+//   {
+//     title: "SEO <br/> Optimization",
+//     icon: (
+//       <LineChart className="w-12 h-12 text-[#4EE1FF] drop-shadow-[0_0_10px_rgba(78,225,255,0.8)]" />
+//     ),
+//     description:
+//       "Data-driven strategies to climb search rankings and drive sustainable organic traffic.",
+//   },
+// ];
+
+// // --- Custom Function to get Directional Offset ---
+// const getDirectionalOffset = (index: number) => {
+//   // Cycles through 4 directions: 0: Left, 1: Top, 2: Right, 3: Bottom
+//   const direction = index % 4;
+//   const offset = 80; // Distance to slide from (in pixels)
+
+//   switch (direction) {
+//     case 0:
+//       return { x: -offset, y: 0 }; // Left
+//     case 1:
+//       return { x: 0, y: -offset }; // Top
+//     case 2:
+//       return { x: offset, y: 0 }; // Right
+//     case 3:
+//       return { x: 0, y: offset }; // Bottom
+//     default:
+//       return { x: 0, y: 0 };
+//   }
+// };
+
+// // --- Framer Motion Variants ---
+// const containerVariants: Variants = {
+//   hidden: {},
+//   show: { transition: { staggerChildren: 0.15 } },
+// };
+
+// const cardVariants: Variants = {
+//   hidden: (direction: { x: number; y: number }) => ({
+//     opacity: 0,
+//     x: direction.x,
+//     y: direction.y,
+//   }),
+//   show: {
+//     opacity: 1,
+//     x: 0,
+//     y: 0,
+//     transition: {
+//       duration: 0.7,
+//       ease: [0.25, 1, 0.5, 1], // Smooth, cinematic ease
+//     },
+//   },
+// };
+
+// // -------------------- COMPONENT ------------------------
+// export default function Services() {
+//   return (
+//     <section className="bg-black text-white py-20 px-6 md:px-16 relative overflow-hidden">
+
+//       {/* Decorative Floating Elements (Kept for style, simplified to translateY) */}
+//       <motion.div
+//         animate={{ translateY: [0, -10, 0] }}
+//         transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+//         className="absolute top-20 left-1/4 w-2 h-2 rounded-full border border-[#4EE1FF] opacity-50 will-change-transform"
+//       />
+//       <motion.div
+//         animate={{ translateY: [0, 15, 0] }}
+//         transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+//         className="absolute top-10 left-[45%] w-1 h-1 bg-[#4EE1FF] rounded-full will-change-transform"
+//       />
+
+//       {/* Header (Simplified to basic structure) */}
+//       <div className="max-w-6xl mx-auto mb-16">
+//         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+//           <div className="w-full lg:w-5/8 relative">
+//             <p className="uppercase text-gray-400 text-sm tracking-widest mb-3">
+//               What we’re offering
+//             </p>
+//             <h2 className="text-3xl sm:text-4xl md:text-4xl lg:text-4xl xl:text-5xl font-bold leading-snug">
+//               Services we’re providing to <br className="hidden sm:inline" />{" "}
+//               our customers
+//             </h2>
+//           </div>
+//           <div className="w-full lg:w-3/8">
+//             <p className="text-gray-400 text-sm md:text-base leading-relaxed">
+//               There are many variations of free text passages available, but
+//               most have suffered alteration in some form. We focus on crafting
+//               effective, visually appealing solutions.
+//             </p>
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* Service Cards */}
+//       <motion.div
+//         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto"
+//         variants={containerVariants}
+//         initial="hidden"
+//         whileInView="show"
+//         viewport={{ once: true, amount: 0.3 }}
+//       >
+//         {services.map((service, index) => {
+//           const directionalOffset = getDirectionalOffset(index);
+
+//           // 💡 Tailwind class for col-span-2 on large screens (lg) only for the first card
+//           const colSpanClass = index === 0 ? 'md:col-span-2' : '';
+
+//           return (
+//             <motion.div
+//               key={index}
+//               custom={directionalOffset}
+//               // Combined base classes with the conditional col-span class
+//               className={`${colSpanClass} group relative bg-gradient-to-br from-[#0a0a0a] to-[#0d0d0d] p-10 pb-6 overflow-hidden border border-gray-800/80 rounded-lg transition-colors duration-500 will-change-transform`}
+//               variants={cardVariants}
+//               whileHover={{
+//                 y: -8,
+//                 scale: 1.01,
+//               }}
+//             >
+//               {/* Icon - Keeping simple opacity transition */}
+//               <motion.div
+//                 className="mb-6"
+//                 initial={{ opacity: 0 }}
+//                 animate={{ opacity: 1 }}
+//                 transition={{ delay: index * 0.15 + 0.3 }}
+//               >
+//                 {service.icon}
+//               </motion.div>
+
+//               {/* TITLE */}
+//               <h3
+//                 className="text-xl font-bold mb-4 text-white leading-snug"
+//                 dangerouslySetInnerHTML={{ __html: service.title }}
+//               />
+
+//               {/* DESCRIPTION */}
+//               <p className="text-gray-400 text-sm leading-relaxed mb-10">
+//                 {service.description}
+//               </p>
+
+//               {/* Blue Border Flash on Hover (CSS-based for smoothness) */}
+//               <div className="absolute inset-0 border border-transparent group-hover:border-[#4EE1FF] opacity-0 group-hover:opacity-30 transition-all duration-300 pointer-events-none rounded-lg" />
+//             </motion.div>
+//           );
+//         })}
+//       </motion.div>
+//     </section>
+//   );
+// }
+
+// "use client";
+
+// import { motion, Variants } from "framer-motion";
+// import { Code, Brush, Palette, Bot, LineChart } from "lucide-react";
+
+// // --- Service Data (Keeping your original data) ---
+// const services = [
+//   {
+//     title: "Website <br/> Development",
+//     icon: (
+//       <Code className="w-12 h-12 text-[#4EE1FF] drop-shadow-[0_0_10px_rgba(78,225,255,0.8)]" />
+//     ),
+//     description:
+//       "Custom-coded, lightning-fast websites engineered to turn visitors into customers.",
+//   },
+//   {
+//     title: "Website <br/> Redesign",
+//     icon: (
+//       <Brush className="w-12 h-12 text-[#4EE1FF] drop-shadow-[0_0_10px_rgba(78,225,255,0.8)]" />
+//     ),
+//     description:
+//       "Modernize your legacy site with improved UX that aligns with your current business goals.",
+//   },
+//   {
+//     title: "Branding",
+//     icon: (
+//       <Palette className="w-12 h-12 text-[#4EE1FF] drop-shadow-[0_0_10px_rgba(78,225,255,0.8)]" />
+//     ),
+//     description:
+//       "We forge cohesive visual identities and brand voices that distinguish you from competitors.",
+//   },
+//   {
+//     title: "AI Workflow <br/> Automation",
+//     icon: (
+//       <Bot className="w-12 h-12 text-[#4EE1FF] drop-shadow-[0_0_10px_rgba(78,225,255,0.8)]" />
+//     ),
+//     description:
+//       "Eliminate bottlenecks with custom AI solutions that automate repetitive tasks.",
+//   },
+//   {
+//     title: "SEO <br/> Optimization",
+//     icon: (
+//       <LineChart className="w-12 h-12 text-[#4EE1FF] drop-shadow-[0_0_10px_rgba(78,225,255,0.8)]" />
+//     ),
+//     description:
+//       "Data-driven strategies to climb search rankings and drive sustainable organic traffic.",
+//   },
+// ];
+
+// // --- Custom Function to get Directional Offset ---
+// const getDirectionalOffset = (index: number) => {
+//   // Cycles through 4 directions: 0: Left, 1: Top, 2: Right, 3: Bottom
+//   const direction = index % 4;
+//   const offset = 80; // Distance to slide from (in pixels)
+
+//   switch (direction) {
+//     case 0:
+//       return { x: -offset, y: 0 }; // Left
+//     case 1:
+//       return { x: 0, y: -offset }; // Top
+//     case 2:
+//       return { x: offset, y: 0 }; // Right
+//     case 3:
+//       return { x: 0, y: offset }; // Bottom
+//     default:
+//       return { x: 0, y: 0 };
+//   }
+// };
+
+// // --- Framer Motion Variants ---
+// const containerVariants: Variants = {
+//   hidden: {},
+//   show: { transition: { staggerChildren: 0.15 } },
+// };
+
+// const cardVariants: Variants = {
+//   hidden: (direction: { x: number; y: number }) => ({
+//     opacity: 0,
+//     x: direction.x,
+//     y: direction.y,
+//   }),
+//   show: {
+//     opacity: 1,
+//     x: 0,
+//     y: 0,
+//     transition: {
+//       duration: 0.7,
+//       ease: [0.25, 1, 0.5, 1], // Smooth, cinematic ease
+//     },
+//   },
+// };
+
+// // -------------------- COMPONENT ------------------------
+// export default function Services() {
+//   return (
+//     <section className="bg-black text-white py-20 px-6 md:px-16 relative overflow-hidden">
+//       {/* Decorative Floating Elements (Kept for style, simplified to translateY) */}
+//       <motion.div
+//         animate={{ translateY: [0, -10, 0] }}
+//         transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+//         className="absolute top-20 left-1/4 w-2 h-2 rounded-full border border-[#4EE1FF] opacity-50 will-change-transform"
+//       />
+//       <motion.div
+//         animate={{ translateY: [0, 15, 0] }}
+//         transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+//         className="absolute top-10 left-[45%] w-1 h-1 bg-[#4EE1FF] rounded-full will-change-transform"
+//       />
+
+//       {/* Header (Simplified to basic structure) */}
+//       <div className="max-w-6xl mx-auto mb-16">
+//         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+//           <div className="w-full lg:w-5/8 relative">
+//             <p className="uppercase text-gray-400 text-sm tracking-widest mb-3">
+//               What we’re offering
+//             </p>
+//             <h2 className="text-3xl sm:text-4xl md:text-4xl lg:text-4xl xl:text-5xl font-bold leading-snug">
+//               Services we’re providing to <br className="hidden sm:inline" />{" "}
+//               our customers
+//             </h2>
+//           </div>
+//           <div className="w-full lg:w-3/8">
+//             <p className="text-gray-400 text-sm md:text-base leading-relaxed">
+//               There are many variations of free text passages available, but
+//               most have suffered alteration in some form. We focus on crafting
+//               effective, visually appealing solutions.
+//             </p>
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* Service Cards */}
+//       <motion.div
+//         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto"
+//         variants={containerVariants}
+//         initial="hidden"
+//         whileInView="show"
+//         viewport={{ once: true, amount: 0.3 }}
+//       >
+//         {services.map((service, index) => {
+//           const directionalOffset = getDirectionalOffset(index);
+
+//           return (
+//             <motion.div
+//               key={index}
+//               custom={directionalOffset}
+//               // 🌟 NEW: Subtile dark gradient added here
+//               className="group relative bg-gradient-to-br from-[#0a0a0a] to-[#0d0d0d] p-10 pb-6 overflow-hidden border border-gray-800/80 rounded-lg transition-colors duration-500 will-change-transform"
+//               variants={cardVariants}
+//               // 🌟 NEW: Simplified, clean hover effect that animates only Y and Scale
+//               whileHover={{
+//                 y: -8,
+//                 scale: 1.01,
+//               }}
+//               // Removed transition={{ type: "tween", duration: 0.3 }} to avoid conflicts
+//             >
+//               {/* Icon - Keeping simple opacity transition */}
+//               <motion.div
+//                 className="mb-6"
+//                 initial={{ opacity: 0 }}
+//                 animate={{ opacity: 1 }}
+//                 transition={{ delay: index * 0.15 + 0.3 }}
+//               >
+//                 {service.icon}
+//               </motion.div>
+
+//               {/* TITLE */}
+//               <h3
+//                 className="text-xl font-bold mb-4 text-white leading-snug"
+//                 dangerouslySetInnerHTML={{ __html: service.title }}
+//               />
+
+//               {/* DESCRIPTION */}
+//               <p className="text-gray-400 text-sm leading-relaxed mb-10">
+//                 {service.description}
+//               </p>
+
+//               {/* Blue Border Flash on Hover (CSS-based for smoothness) */}
+//               <div className="absolute inset-0 border border-transparent group-hover:border-[#4EE1FF] opacity-0 group-hover:opacity-30 transition-all duration-300 pointer-events-none rounded-lg" />
+//             </motion.div>
+//           );
+//         })}
+//       </motion.div>
+//     </section>
+//   );
+// }
+
+// "use client";
+
+// import { motion, Variants } from "framer-motion";
+// // import { Code, Brush, Smartphone, Megaphone } from "lucide-react";
+
+// // --- Service Data ---
+// import { Code, Brush, Palette, Bot, LineChart } from 'lucide-react'; // Suggested icons
+
+// const services = [
+//   {
+//     title: "Website <br/> Development",
+//     // Icon: Code is perfect here
+//     icon: <Code className="w-12 h-12 text-[#4EE1FF] drop-shadow-[0_0_10px_rgba(78,225,255,0.8)]" />,
+//     description: "Custom-coded, lightning-fast websites engineered to turn visitors into customers.",
+//   },
+//   {
+//     title: "Website <br/> Redesign",
+//     // Icon: Brush is good, implies a makeover
+//     icon: <Brush className="w-12 h-12 text-[#4EE1FF] drop-shadow-[0_0_10px_rgba(78,225,255,0.8)]" />,
+//     description: "Modernize your legacy site with improved UX that aligns with your current business goals.",
+//   },
+//   {
+//     title: "Branding",
+//     // Icon: Changed from Smartphone to Palette (or Fingerprint/PenTool) for Branding context
+//     icon: <Palette className="w-12 h-12 text-[#4EE1FF] drop-shadow-[0_0_10px_rgba(78,225,255,0.8)]" />,
+//     description: "We forge cohesive visual identities and brand voices that distinguish you from competitors.",
+//   },
+//   {
+//     title: "AI Workflow <br/> Automation",
+//     // Icon: Changed from Megaphone to Bot (or Cpu/Workflow)
+//     icon: <Bot className="w-12 h-12 text-[#4EE1FF] drop-shadow-[0_0_10px_rgba(78,225,255,0.8)]" />,
+//     description: "Eliminate bottlenecks with custom AI solutions that automate repetitive tasks.",
+//   },
+//   {
+//     title: "SEO <br/> Optimization",
+//     // Icon: Changed to LineChart (or Search/TrendingUp)
+//     icon: <LineChart className="w-12 h-12 text-[#4EE1FF] drop-shadow-[0_0_10px_rgba(78,225,255,0.8)]" />,
+//     description: "Data-driven strategies to climb search rankings and drive sustainable organic traffic.",
+//   },
+// ];
+
+// // --- Framer Motion Variants ---
+// const containerVariants: Variants = {
+//   hidden: {},
+//   show: { transition: { staggerChildren: 0.2 } },
+// };
+
+// const cardVariants: Variants = {
+//   hidden: { opacity: 0, y: 40 },
+//   show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 120, damping: 15 } },
+// };
+
+// const iconVariants: Variants = {
+//   hidden: { rotate: -15, scale: 0.8, opacity: 0 },
+//   show: { rotate: 0, scale: 1, opacity: 1, transition: { type: "spring", stiffness: 120 } },
+// };
+
+// // -------------------- COMPONENT ------------------------
+// export default function Services() {
+//   return (
+//     <section className="bg-black text-white py-20 px-6 md:px-16 relative">
+//       {/* Decorative Floating Elements */}
+//       <motion.div
+//         animate={{ y: [0, -10, 0] }}
+//         transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+//         className="absolute top-20 left-1/4 w-2 h-2 rounded-full border border-[#4EE1FF] opacity-50"
+//       />
+//       <motion.div
+//         animate={{ y: [0, 15, 0] }}
+//         transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+//         className="absolute top-10 left-[45%] w-1 h-1 bg-[#4EE1FF] rounded-full"
+//       />
+
+//       {/* Header */}
+//       <div className="max-w-6xl mx-auto mb-16">
+//         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+//           <div className="w-full lg:w-5/8 relative">
+//             <p className="uppercase text-gray-400 text-sm tracking-widest mb-3">
+//               What we’re offering
+//             </p>
+//             <h2 className="text-3xl sm:text-4xl md:text-4xl lg:text-4xl xl:text-5xl font-bold leading-snug">
+//               Services we’re providing to <br className="hidden sm:inline" /> our customers
+//             </h2>
+//           </div>
+//           <div className="w-full lg:w-3/8">
+//             <p className="text-gray-400 text-sm md:text-base leading-relaxed">
+//               There are many variations of free text passages available, but most have
+//               suffered alteration in some form. We focus on crafting effective, visually
+//               appealing solutions.
+//             </p>
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* Service Cards */}
+//       <motion.div
+//         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto"
+//         variants={containerVariants}
+//         initial="hidden"
+//         whileInView="show"
+//         viewport={{ once: true, amount: 0.3 }}
+//       >
+//         {services.map((service, index) => (
+//           <motion.div
+//             key={index}
+//             className="group relative bg-[#0d0d0d] p-10 pb-6 overflow-hidden border border-gray-800 rounded-none transition-all duration-500"
+//             variants={cardVariants}
+//             whileHover={{ y: -6, boxShadow: "0 0 25px rgba(78,225,255,0.4)" }}
+//           >
+//             {/* Animated Icon */}
+//             <motion.div variants={iconVariants} className="mb-6">
+//               {service.icon}
+//             </motion.div>
+
+//             {/* TITLE */}
+//             <h3
+//               className="text-xl font-bold mb-4 text-white leading-snug"
+//               dangerouslySetInnerHTML={{ __html: service.title }}
+//             />
+
+//             {/* DESCRIPTION */}
+//             <p className="text-gray-400 text-sm leading-relaxed mb-10">
+//               {service.description}
+//             </p>
+
+//             {/* Overlay Glow */}
+//             <motion.div
+//               className="absolute inset-0 pointer-events-none"
+//               initial={{ opacity: 0 }}
+//               whileInView={{ opacity: 0.05 }}
+//               transition={{ duration: 1.5, delay: index * 0.3 }}
+//             >
+//               <div className="absolute right-[-40%] top-0 w-[200%] h-[200%] rotate-[25deg] bg-gradient-to-r from-[#4EE1FF] to-transparent"></div>
+//             </motion.div>
+//           </motion.div>
+//         ))}
+//       </motion.div>
+//     </section>
+//   );
+// }
 
 // "use client";
 // import { motion } from "framer-motion";
@@ -235,8 +843,6 @@ export default function Services() {
 //     </section>
 //   );
 // }
-
-
 
 // "use client";
 // import { motion } from "framer-motion";
@@ -363,7 +969,7 @@ export default function Services() {
 //             {/* RIGHT ARROW BUTTON — ★ ONLY PART CHANGED ★ */}
 //             <motion.div
 //               className="
-//     absolute top-10 right-10 w-10 h-10 p-8 flex items-center justify-center 
+//     absolute top-10 right-10 w-10 h-10 p-8 flex items-center justify-center
 //     bg-black border border-gray-700 rounded-full
 //     transition-all duration-500
 //     group-hover:border-[#00FF7F]

@@ -134,19 +134,19 @@ const ContactForm = () => {
 // ------------------------------------
 
 // 1. Import Oswald font (it is naturally condensed/tall)
-import { Oswald } from "next/font/google";
+// import { Oswald } from "next/font/google";
 
 // 2. Configure font to be extra bold
-const oswald = Oswald({
-  subsets: ["latin"],
-  weight: "700",
-});
+// const oswald = Oswald({
+//   subsets: ["latin"],
+//   weight: "700",
+// });
 const ContactPage = () => {
   return (
     <main className="w-full min-h-screen bg-[#111]">
       <section className="relative h-[50vh] sm:h-[60vh] md:h-[40vh] lg:h-[70vh] xl:h-[80vh] w-full flex items-center justify-center overflow-hidden">
         <div
-          className="absolute inset-0 z-0"
+          className="absolute inset-0 z-0 pointer-events-none"
           style={{
             backgroundImage: "url('/images/page-banner.png')",
             backgroundSize: "cover",
@@ -158,11 +158,12 @@ const ContactPage = () => {
         {/* Container for the text */}
         <div className="relative z-10 w-full max-w-7xl mx-auto px-6 mt-10 flex flex-col justify-center">
           {/* Breadcrumb - Aligned to start/left */}
-          <div className="text-sm md:text-base text-gray-300 mb-0 tracking-wide self-start">
-            <Link href={"/"} className="text-[#4EE1FF]">
+          {/* Breadcrumb - Responsive */}
+          <div className="flex flex-wrap items-center gap-2 text-sm md:text-base text-gray-300 mb-2 tracking-wide">
+            <Link href="/" className="text-[#4EE1FF] hover:underline">
               Home
             </Link>
-            <span className="mx-2">•</span>
+            <span className="text-gray-500">•</span>
             <span className="text-white">Contact</span>
           </div>
 
@@ -173,7 +174,7 @@ const ContactPage = () => {
              3. leading-none: Removes vertical gaps.
           */}
           <h1
-            className={`${oswald.className} text-white uppercase text-[17.5vw] leading-none tracking-tighter text-center font-bold transform scale-y-125 origin-center mt-0 pt-4`}
+            className={`text-white uppercase text-[14vw] leading-none tracking-tighter text-center font-bold transform scale-y-125 origin-center mt-0 pt-4`}
           >
             CONTACT
           </h1>

@@ -3,23 +3,27 @@
 import React from "react";
 import { motion, Variants } from "framer-motion";
 import { Users, Code, Rocket } from "lucide-react"; // Icons reflecting the process steps
+import { SplitText } from "./SplitText";
 
 // --- Feature Data (Restored to 3 specific process steps) ---
 const features = [
   {
     title: "Meeting",
     icon: Users,
-    description: "We start with a detailed consultation to understand your business, goals, and vision. This ensures we align our strategy with your objectives.",
+    description:
+      "We start with a detailed consultation to understand your business, goals, and vision. This ensures we align our strategy with your objectives.",
   },
   {
     title: "Development",
     icon: Code,
-    description: "Our team builds high-quality websites, apps, and digital solutions, focusing on performance, usability, and seamless design.",
+    description:
+      "Our team builds high-quality websites, apps, and digital solutions, focusing on performance, usability, and seamless design.",
   },
   {
     title: "Delivery",
     icon: Rocket,
-    description: "We launch your project and ensure it runs smoothly, providing support and guidance for continuous growth and improvement.",
+    description:
+      "We launch your project and ensure it runs smoothly, providing support and guidance for continuous growth and improvement.",
   },
 ];
 
@@ -67,7 +71,6 @@ const Process = () => {
   return (
     <section className="bg-[#0A0A0A] text-white py-20 md:py-32 px-4 overflow-hidden relative font-sans">
       <div className="max-w-7xl mx-auto text-center relative z-10">
-        
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -77,13 +80,20 @@ const Process = () => {
           className="mb-16 md:mb-24"
         >
           <p className="text-gray-500 uppercase tracking-[0.2em] text-sm font-medium mb-3">
-             Simple Work Process
+            <SplitText text="Simple Work Process" />
           </p>
           <h2 className="text-4xl md:text-5xl font-bold leading-tight">
-            Check how we work in <br />
-            <span className="text-[#4EE1FF]">3 easy steps</span>
+            <SplitText text="Check how we work in" />
+            <br />
+            <p className="text-[#4EE1FF]">
+              <SplitText text="3 easy steps" />
+            </p>
           </h2>
         </motion.div>
+
+        {/* <SplitText text="Explore some of the impactful" />
+                      <br className="hidden sm:inline" />
+                      <SplitText text="work we’ve built" /> */}
 
         {/* Steps Grid */}
         <motion.div
@@ -106,7 +116,7 @@ const Process = () => {
                   // Outer glowing circle border
                   className="absolute inset-0 rounded-full border border-[#4EE1FF] shadow-[0_0_15px_rgba(78,225,255,0.7)]"
                 />
-                
+
                 {/* Inner black circle container */}
                 <div className="relative w-40 h-40 rounded-full bg-[#0d0d0d] flex items-center justify-center border border-[#4EE1FF]/30 transition-transform duration-500 hover:scale-105">
                   <feature.icon className="w-12 h-12 text-[#4EE1FF] drop-shadow-[0_0_10px_rgba(78,225,255,0.8)]" />
@@ -117,7 +127,7 @@ const Process = () => {
               <h3 className="text-xl md:text-2xl font-bold mb-3">
                 {feature.title}
               </h3>
-              
+
               {/* Description */}
               <p className="text-gray-400 text-base leading-relaxed max-w-xs mx-auto">
                 {feature.description}
@@ -302,10 +312,7 @@ export default Process;
 
 // export default Process;
 
-
-
-
-// pls replace this code with the image provided, but maintain only the 3 steps in the code provided 
+// pls replace this code with the image provided, but maintain only the 3 steps in the code provided
 
 // "use client";
 

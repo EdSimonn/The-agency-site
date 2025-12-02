@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import { motion, Variants } from "framer-motion";
 import { LifeBuoy, Workflow } from "lucide-react";
+import { SplitText } from "./SplitText";
 
 // ---------- VARIANTS ----------
 
@@ -150,10 +151,12 @@ const WhyChooseUs = () => {
 
             {/* 2. Heading */}
             <motion.h2
-              variants={itemVariant}
+              // variants={itemVariant}
               className="text-3xl md:text-5xl font-bold leading-tight mb-6"
             >
-              Why choose our agency?
+              <SplitText
+                text="Why choose our agency?"
+              />
             </motion.h2>
 
             {/* 3. Description Paragraph */}
@@ -215,7 +218,6 @@ const WhyChooseUs = () => {
 
 export default WhyChooseUs;
 
-
 // "use client";
 
 // import React, { useState } from "react";
@@ -275,7 +277,7 @@ export default WhyChooseUs;
 //         alt=""
 //         fill
 //         priority
-        // placeholder="blur"
+// placeholder="blur"
 //         blurDataURL={src} // You can replace with tiny base64 placeholder if you have one
 //         className={`object-cover grayscale hover:grayscale-0  transition-all duration-500 ${
 //           loaded ? "opacity-100" : "opacity-0"
@@ -378,9 +380,6 @@ export default WhyChooseUs;
 // };
 
 // export default WhyChooseUs;
-
-
-
 
 // "use client";
 
