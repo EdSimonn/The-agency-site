@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { motion, Variants } from "framer-motion";
 import { FaUsers, FaGlobeAmericas } from "react-icons/fa";
@@ -29,16 +29,17 @@ const lineDraw: Variants = {
   show: { scaleX: 1, transition: { duration: 0.8, ease: "easeInOut" } },
 };
 
-// -------------------- COMPONENT --------------------
 const About: React.FC = () => {
+  // 👇 fix grayscale on mobile & framer motion conflict
+  const [active, setActive] = useState(false);
+
   return (
     <section className="w-full bg-[#050505] text-white py-16 md:py-24 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 md:px-12 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-
+          
           {/* LEFT SIDE: IMAGE */}
           <div className="relative w-full h-[400px] md:h-[500px] lg:h-[600px]">
-
             <motion.div
               initial={{ clipPath: "inset(0 100% 0 0)" }}
               whileInView={{ clipPath: "inset(0 0% 0 0)" }}
@@ -46,16 +47,19 @@ const About: React.FC = () => {
               viewport={{ once: true }}
               className="absolute inset-0 w-full h-full"
             >
-              {/* MOBILE TAP = remove grayscale */}
               <motion.div
-                whileTap={{ filter: "grayscale(0%)" }}
-                className="w-full h-full"
+                onHoverStart={() => setActive(true)}
+                onHoverEnd={() => setActive(false)}
+                onClick={() => setActive(!active)} // mobile tap
+                className={`w-full h-full transition-all duration-500 ${
+                  active ? "grayscale-0" : "grayscale"
+                }`}
               >
                 <Image
                   src="/images/about-img.png"
                   alt="Team working together"
                   fill
-                  className="object-cover rounded-sm grayscale hover:grayscale-0 transition-all duration-500"
+                  className="object-cover rounded-sm"
                   priority
                 />
               </motion.div>
@@ -73,13 +77,16 @@ const About: React.FC = () => {
             className="flex flex-col justify-center"
           >
             {/* Subheading */}
-            <motion.div variants={contentSlideUp} className="flex items-center gap-2">
+            <motion.div
+              variants={contentSlideUp}
+              className="flex items-center gap-2"
+            >
               <span className="uppercase text-gray-400 text-sm tracking-widest mb-3">
                 About Our Agency
               </span>
             </motion.div>
 
-            {/* Main Heading */}
+            {/* Heading */}
             <motion.h2 className="font-bold leading-tight mb-6 text-3xl md:text-5xl">
               <SplitText text="Building Simple, Modern & Scalable Digital Experiences" />
             </motion.h2>
@@ -94,19 +101,22 @@ const About: React.FC = () => {
               grow, and stay ahead.
             </motion.p>
 
-            {/* Animated Divider */}
+            {/* Divider */}
             <motion.div
               variants={lineDraw}
               className="h-[1px] w-full bg-gray-800 mb-10 origin-left"
             />
 
-            {/* Features Grid */}
+            {/* Features */}
             <motion.div
               variants={contentSlideUp}
               className="grid grid-cols-1 md:grid-cols-2 gap-8"
             >
               {/* Feature 1 */}
-              <motion.div variants={contentSlideUp} className="flex flex-col gap-3">
+              <motion.div
+                variants={contentSlideUp}
+                className="flex flex-col gap-3"
+              >
                 <div className="w-12 h-12 rounded-full flex items-center justify-center mb-2">
                   <FaUsers className="w-12 h-12 text-[#4EE1FF] drop-shadow-[0_0_10px_rgba(78,225,255,0.8)]" />
                 </div>
@@ -118,7 +128,10 @@ const About: React.FC = () => {
               </motion.div>
 
               {/* Feature 2 */}
-              <motion.div variants={contentSlideUp} className="flex flex-col gap-3">
+              <motion.div
+                variants={contentSlideUp}
+                className="flex flex-col gap-3"
+              >
                 <div className="w-12 h-12 rounded-full flex items-center justify-center mb-2">
                   <FaGlobeAmericas className="w-12 h-12 text-[#4EE1FF] drop-shadow-[0_0_10px_rgba(78,225,255,0.8)]" />
                 </div>
@@ -130,6 +143,7 @@ const About: React.FC = () => {
               </motion.div>
             </motion.div>
           </motion.div>
+
         </div>
       </div>
     </section>
@@ -137,6 +151,7 @@ const About: React.FC = () => {
 };
 
 export default About;
+
 
 
 // "use client";
