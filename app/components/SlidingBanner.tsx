@@ -36,7 +36,6 @@ export default function SlidingBanner() {
   return (
     <div className="overflow-hidden whitespace-nowrap bg-black py-6">
       <div ref={containerRef} className="flex will-change-transform">
-        
         {/* First set */}
         <MarqueeText text={text} />
         <MarqueeText text={text} />
@@ -51,12 +50,17 @@ export default function SlidingBanner() {
   );
 }
 
-const MarqueeText = ({ text }: { text: string }) => (
-  <span className="text-white font-bold text-[16vw] tracking-tighter px-8">
-    {text}
-  </span>
-);
+const MarqueeText = ({ text }: { text: string }) => {
+  const parts = text.split("&");
 
+  return (
+    <span className="text-white font-bold text-[16vw] tracking-tighter px-8">
+      {parts[0]}
+      <span className="text-[#4EE1FF]">&</span>
+      {parts[1]}
+    </span>
+  );
+};
 
 // "use client";
 // import React from "react";
@@ -68,7 +72,7 @@ const MarqueeText = ({ text }: { text: string }) => (
 //         2. animate-infinite-scroll: Uses the config we defined above.
 //       */}
 //       <div className="flex w-max animate-infinite-scroll">
-        
+
 //         {/* FIRST COPY */}
 //         <span className="text-white font-bold text-[16vw] uppercase leading-none tracking-tighter px-4">
 //           Web design & development agency.
@@ -78,7 +82,7 @@ const MarqueeText = ({ text }: { text: string }) => (
 //         <span className="text-white font-bold text-[16vw] uppercase leading-none tracking-tighter px-4">
 //           Web design & development agency.
 //         </span>
-        
+
 //       </div>
 //     </div>
 //   );
@@ -111,7 +115,6 @@ const MarqueeText = ({ text }: { text: string }) => (
 // };
 
 // export default SlidingBanner;
-
 
 // "use client";
 // import React from "react";

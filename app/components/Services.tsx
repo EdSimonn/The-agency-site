@@ -13,7 +13,7 @@ const services = [
       <Code className="w-12 h-12 text-[#4EE1FF] drop-shadow-[0_0_10px_rgba(78,225,255,0.8)]" />
     ),
     description:
-      "Custom-coded, lightning-fast websites engineered to turn visitors into customers.",
+      "Websites crafted with care, designed to work smoothly, look great, and make it easy for people to explore your business, understand what you offer, and take action with confidence.",
   },
   {
     title: "Website <br/> Redesign",
@@ -143,11 +143,11 @@ export default function Services() {
             </motion.p>
 
             {/* H2 with Split Text Animation, now split into two lines */}
-  <h2 className="text-3xl sm:text-4xl md:text-4xl lg:text-4xl xl:text-5xl font-bold leading-snug">
-  <SplitText text="Services we’re providing to" />
-  <br className="hidden sm:inline" />
-  <SplitText text="our customers" />
-</h2>
+            <h2 className="text-3xl sm:text-4xl md:text-4xl lg:text-4xl xl:text-5xl font-bold leading-snug">
+              <SplitText text="Services we’re providing to our customers" />
+              {/* <br className="hidden sm:inline" /> */}
+              {/* <SplitText text="our customers" /> */}
+            </h2>
           </div>
 
           <div className="w-full lg:w-3/8">
@@ -157,9 +157,9 @@ export default function Services() {
               variants={slideInUp}
               transition={{ delay: 0.1 }} // Slightly delayed to follow the top P
             >
-              There are many variations of free text passages available, but
-              most have suffered alteration in some form. We focus on crafting
-              effective, visually appealing solutions.
+              A full suite of services including website development, redesign,
+              branding, and AI automation built to engage, delight, and grow
+              your audience.
             </motion.p>
           </div>
         </div>

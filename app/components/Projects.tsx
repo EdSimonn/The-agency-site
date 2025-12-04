@@ -8,25 +8,47 @@ import { SplitText } from "./SplitText";
 
 // -------------------- HEADER TEXT ANIMATION ------------------------
 
-
-// Simple slide-in animation for <p> tags
 const slideInUp: Variants = {
   hidden: { opacity: 0, y: 30 },
   show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
 };
 
+// -------------------- STAGGER ANIMATION FOR CARDS ------------------------
+
+const staggerParent: Variants = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.5, // time between each card animation
+      ease: "easeOut",
+    },
+  },
+};
+
+const cardAnim: Variants = {
+  hidden: { opacity: 0, y: 100 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: "easeOut" },
+  },
+};
+
 // -------------------- COMPONENT ------------------------
+
 const ProjectsSection = () => {
   const displayProjects = projects.slice(0, 2);
 
   return (
     <section className="py-24 px-6 md:px-12 lg:px-20 bg-black min-h-screen relative">
+
       {/* Decorative Elements */}
       <motion.div
         animate={{ y: [0, -10, 0] }}
         transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
         className="absolute top-20 left-1/4 w-2 h-2 rounded-full border border-[#4EE1FF] opacity-50"
       />
+
       <motion.div
         animate={{ y: [0, 15, 0] }}
         transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
@@ -41,8 +63,8 @@ const ProjectsSection = () => {
         viewport={{ once: true, amount: 0.2 }}
       >
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-12">
+
           <div className="w-full lg:w-5/8">
-            {/* Top P tag with slide-in */}
             <motion.p
               className="uppercase text-gray-400 text-sm tracking-widest mb-3"
               variants={slideInUp}
@@ -50,15 +72,13 @@ const ProjectsSection = () => {
               Our Projects
             </motion.p>
 
-            {/* H2 with Split Text unravel animation */}
             <h2 className="text-3xl sm:text-4xl md:text-4xl xl:text-5xl font-bold text-white leading-snug">
-              <SplitText text="Explore some of the impactful" />
+              <SplitText text="Explore some of the impactful work we’ve built" />
               <br className="hidden sm:inline" />
-              <SplitText text="work we’ve built" />
             </h2>
           </div>
+
           <div className="w-full lg:w-3/8">
-            {/* Description P tag with slide-in */}
             <motion.p
               className="text-gray-400 text-sm md:text-base leading-relaxed"
               variants={slideInUp}
@@ -69,20 +89,117 @@ const ProjectsSection = () => {
               and purpose.
             </motion.p>
           </div>
+
         </div>
       </motion.div>
 
-      {/* Grid */}
-      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-16">
+      {/* ---------------- PROJECT GRID WITH STAGGER ---------------- */}
+      <motion.div
+        className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2 md:gap-16"
+        variants={staggerParent}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.2 }}
+      >
         {displayProjects.map((project, idx) => (
-          <ProjectCard key={idx} project={project} />
+          <motion.div key={idx} variants={cardAnim}>
+            <ProjectCard project={project} />
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
+
     </section>
   );
 };
 
 export default ProjectsSection;
+
+
+// "use client";
+
+// import React from "react";
+// import { projects } from "../data/projects";
+// import ProjectCard from "./ProjectCard";
+// import { motion, Variants } from "framer-motion";
+// import { SplitText } from "./SplitText";
+
+// // -------------------- HEADER TEXT ANIMATION ------------------------
+
+
+// // Simple slide-in animation for <p> tags
+// const slideInUp: Variants = {
+//   hidden: { opacity: 0, y: 30 },
+//   show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+// };
+
+// // -------------------- COMPONENT ------------------------
+// const ProjectsSection = () => {
+//   const displayProjects = projects.slice(0, 2);
+
+//   return (
+//     <section className="py-24 px-6 md:px-12 lg:px-20 bg-black min-h-screen relative">
+//       {/* Decorative Elements */}
+//       <motion.div
+//         animate={{ y: [0, -10, 0] }}
+//         transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+//         className="absolute top-20 left-1/4 w-2 h-2 rounded-full border border-[#4EE1FF] opacity-50"
+//       />
+//       <motion.div
+//         animate={{ y: [0, 15, 0] }}
+//         transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+//         className="absolute top-10 left-[45%] w-1 h-1 bg-[#4EE1FF] rounded-full"
+//       />
+
+//       {/* Header */}
+//       <motion.div
+//         className="max-w-6xl mx-auto mb-16"
+//         initial="hidden"
+//         whileInView="show"
+//         viewport={{ once: true, amount: 0.2 }}
+//       >
+//         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-12">
+//           <div className="w-full lg:w-5/8">
+//             {/* Top P tag with slide-in */}
+//             <motion.p
+//               className="uppercase text-gray-400 text-sm tracking-widest mb-3"
+//               variants={slideInUp}
+//             >
+//               Our Projects
+//             </motion.p>
+
+//             {/* H2 with Split Text unravel animation */}
+//             <h2 className="text-3xl sm:text-4xl md:text-4xl xl:text-5xl font-bold text-white leading-snug">
+//               <SplitText text="Explore some of the impactful work we’ve built" />
+//               <br className="hidden sm:inline" />
+//               {/* <SplitText text="work we’ve built" /> */}
+//             </h2>
+//           </div>
+//           <div className="w-full lg:w-3/8">
+//             {/* Description P tag with slide-in */}
+//             <motion.p
+//               className="text-gray-400 text-sm md:text-base leading-relaxed"
+//               variants={slideInUp}
+//               transition={{ delay: 0.1 }}
+//             >
+//               A collection of unique website builds, creative landing pages, and
+//               fully interactive user experiences — each crafted with precision
+//               and purpose.
+//             </motion.p>
+//           </div>
+//         </div>
+//       </motion.div>
+
+//       {/* Grid */}
+//       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2 md:gap-16">
+//         {displayProjects.map((project, idx) => (
+//           <ProjectCard key={idx} project={project} />
+//         ))}
+//       </div>
+//     </section>
+//   );
+// };
+
+// export default ProjectsSection;
 
 
 

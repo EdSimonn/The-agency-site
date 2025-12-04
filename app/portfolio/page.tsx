@@ -4,6 +4,8 @@ import React from "react";
 import Link from "next/link";
 import ProjectCard from "../components/ProjectCard";
 import { projects } from "../data/projects";
+import { motion, Variants } from "framer-motion";
+
 // 1. Import Oswald font (it is naturally condensed/tall)
 // import { Oswald } from "next/font/google";
 // import { motion } from "framer-motion";
@@ -13,6 +15,27 @@ import { projects } from "../data/projects";
 //   subsets: ["latin"],
 //   weight: "700",
 // });
+
+// -------------------- STAGGER ANIMATION FOR CARDS ------------------------
+
+const staggerParent: Variants = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.5, // time between each card animation
+      ease: "easeOut",
+    },
+  },
+};
+
+const cardAnim: Variants = {
+  hidden: { opacity: 0, y: 100 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: "easeOut" },
+  },
+};
 
 const PortfolioPage = () => {
   return (
@@ -68,11 +91,19 @@ const PortfolioPage = () => {
 
       {/* Projects Grid */}
       <section className="max-w-7xl mx-auto px-6 py-20 pt-32 pb-24">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-16">
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2 md:gap-16"
+          variants={staggerParent}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+        >
           {projects.map((project, idx) => (
-            <ProjectCard key={idx} project={project} />
+            <motion.div key={idx} variants={cardAnim}>
+              <ProjectCard key={idx} project={project} />
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </section>
     </main>
   );

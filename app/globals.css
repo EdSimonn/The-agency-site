@@ -51,6 +51,12 @@ body {
   animation: slider 15s linear infinite;
 }
 
+/* Make “hover” class behave exactly like :hover */
+.hover:hover,
+.hover {
+  pointer-events: auto;
+}
+
 /* @keyframes slide {
   0% {
     transform: translateX(0);

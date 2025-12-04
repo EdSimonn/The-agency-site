@@ -5,27 +5,27 @@ import { motion, Variants } from "framer-motion";
 import { Users, Code, Rocket } from "lucide-react"; // Icons reflecting the process steps
 import { SplitText } from "./SplitText";
 
-// --- Feature Data (Restored to 3 specific process steps) ---
 const features = [
   {
     title: "Meeting",
     icon: Users,
     description:
-      "We start with a detailed consultation to understand your business, goals, and vision. This ensures we align our strategy with your objectives.",
+      "We begin with a clear conversation to understand your brand, goals, and the results you want.",
   },
   {
     title: "Development",
     icon: Code,
     description:
-      "Our team builds high-quality websites, apps, and digital solutions, focusing on performance, usability, and seamless design.",
+      "We design and build fast, modern, and user-focused digital experiences tailored to your needs.",
   },
   {
     title: "Delivery",
     icon: Rocket,
     description:
-      "We launch your project and ensure it runs smoothly, providing support and guidance for continuous growth and improvement.",
+      "Your project goes live with full support to ensure smooth performance and long-term success.",
   },
 ];
+
 
 // --- Animation Variants (Preserving the Ripple Reveal style) ---
 

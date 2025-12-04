@@ -148,6 +148,8 @@ const About: React.FC = () => {
 
 export default About;
 
+// why cant i hover on all screen, only on desktop, and it was not like this before
+
 // "use client";
 
 // import React from "react";
