@@ -2,10 +2,10 @@
 
 import { motion, Variants } from "framer-motion";
 import { Code, Brush, Palette, Bot, LineChart } from "lucide-react";
-import React from "react"; // <-- Import useState and useEffect
+import React from "react"; 
 import { SplitText } from "./SplitText";
 
-// --- Service Data (Keeping your original data) ---
+// --- Service Data ---
 const services = [
   {
     title: "Website <br/> Development",
@@ -49,23 +49,16 @@ const services = [
   },
 ];
 
-// -------------------- HEADER TEXT ANIMATION (Split Text / Unravel) ------------------------
+// --- Framer Motion Variants (Same as original) ---
 
-// Variants for the letter container
-// SplitText component with the hydration fix and text wrapping fix
-// Variants for simple sliding header text
 const slideInUp: Variants = {
   hidden: { opacity: 0, y: 30 },
   show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
 };
 
-// -------------------- CARD ANIMATION (Original Logic) ------------------------
-
-// Custom Function to get Directional Offset
 const getDirectionalOffset = (index: number) => {
-  // Cycles through 4 directions: 0: Left, 1: Top, 2: Right, 3: Bottom
   const direction = index % 4;
-  const offset = 80; // Distance to slide from (in pixels)
+  const offset = 80;
 
   switch (direction) {
     case 0:
@@ -81,13 +74,11 @@ const getDirectionalOffset = (index: number) => {
   }
 };
 
-// Framer Motion Variants for the card container (stagger)
 const containerVariants: Variants = {
   hidden: {},
   show: { transition: { staggerChildren: 0.15 } },
 };
 
-// Framer Motion Variants for individual cards (directional slide)
 const cardVariants: Variants = {
   hidden: (direction: { x: number; y: number }) => ({
     opacity: 0,
@@ -109,10 +100,7 @@ const cardVariants: Variants = {
 export default function Services() {
   return (
     <section className="bg-black text-white py-20 px-6 md:px-16 relative overflow-hidden">
-      {/* Decorative Floating Elements (Note: These are also generating random transform values 
-          but Framer Motion handles it by only running the animation logic client-side
-          on the initial hydration, so they typically don't cause an issue unless 
-          the animation starts immediately on load, which these transition props allow.) */}
+      {/* Decorative Floating Elements */}
       <motion.div
         animate={{ translateY: [0, -10, 0] }}
         transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
@@ -142,11 +130,9 @@ export default function Services() {
               What we’re offering
             </motion.p>
 
-            {/* H2 with Split Text Animation, now split into two lines */}
+            {/* H2 with Split Text Animation */}
             <h2 className="text-3xl sm:text-4xl md:text-4xl lg:text-4xl xl:text-5xl font-bold leading-snug">
               <SplitText text="Services we’re providing to our customers" />
-              {/* <br className="hidden sm:inline" /> */}
-              {/* <SplitText text="our customers" /> */}
             </h2>
           </div>
 
@@ -155,7 +141,7 @@ export default function Services() {
             <motion.p
               className="text-gray-400 text-sm md:text-base leading-relaxed"
               variants={slideInUp}
-              transition={{ delay: 0.1 }} // Slightly delayed to follow the top P
+              transition={{ delay: 0.1 }} 
             >
               A full suite of services including website development, redesign,
               branding, and AI automation built to engage, delight, and grow
@@ -165,7 +151,7 @@ export default function Services() {
         </div>
       </motion.div>
 
-      {/* Service Cards (Restored Original Logic) */}
+      {/* Service Cards (With whileTap Fix) */}
       <motion.div
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto"
         variants={containerVariants}
@@ -175,23 +161,25 @@ export default function Services() {
       >
         {services.map((service, index) => {
           const directionalOffset = getDirectionalOffset(index);
-
-          // Tailwind class for col-span-2 on large screens (lg) only for the first card
           const colSpanClass = index === 0 ? "md:col-span-2" : "";
 
           return (
             <motion.div
               key={index}
               custom={directionalOffset}
-              // Combined base classes with the conditional col-span class
               className={`${colSpanClass} group relative bg-gradient-to-br from-[#0a0a0a] to-[#0d0d0d] p-10 pb-6 overflow-hidden border border-gray-800/80 rounded-lg transition-colors duration-500 will-change-transform`}
               variants={cardVariants}
               whileHover={{
                 y: -8,
                 scale: 1.01,
               }}
+              // FIX: Add whileTap to activate animation on mobile tap
+              whileTap={{ 
+                y: -8, 
+                scale: 1.01 
+              }}
             >
-              {/* Icon - Keeping simple opacity transition for visual freshness */}
+              {/* Icon */}
               <motion.div
                 className="mb-6"
                 initial={{ opacity: 0 }}
@@ -212,7 +200,7 @@ export default function Services() {
                 {service.description}
               </p>
 
-              {/* Blue Border Flash on Hover (CSS-based for smoothness) */}
+              {/* Blue Border Flash on Hover (CSS-based) */}
               <div className="absolute inset-0 border border-transparent group-hover:border-[#4EE1FF] opacity-0 group-hover:opacity-30 transition-all duration-300 pointer-events-none rounded-lg" />
             </motion.div>
           );
@@ -221,6 +209,230 @@ export default function Services() {
     </section>
   );
 }
+
+// "use client";
+
+// import { motion, Variants } from "framer-motion";
+// import { Code, Brush, Palette, Bot, LineChart } from "lucide-react";
+// import React from "react"; // <-- Import useState and useEffect
+// import { SplitText } from "./SplitText";
+
+// // --- Service Data (Keeping your original data) ---
+// const services = [
+//   {
+//     title: "Website <br/> Development",
+//     icon: (
+//       <Code className="w-12 h-12 text-[#4EE1FF] drop-shadow-[0_0_10px_rgba(78,225,255,0.8)]" />
+//     ),
+//     description:
+//       "Websites crafted with care, designed to work smoothly, look great, and make it easy for people to explore your business, understand what you offer, and take action with confidence.",
+//   },
+//   {
+//     title: "Website <br/> Redesign",
+//     icon: (
+//       <Brush className="w-12 h-12 text-[#4EE1FF] drop-shadow-[0_0_10px_rgba(78,225,255,0.8)]" />
+//     ),
+//     description:
+//       "Modernize your legacy site with improved UX that aligns with your current business goals.",
+//   },
+//   {
+//     title: "Branding",
+//     icon: (
+//       <Palette className="w-12 h-12 text-[#4EE1FF] drop-shadow-[0_0_10px_rgba(78,225,255,0.8)]" />
+//     ),
+//     description:
+//       "We forge cohesive visual identities and brand voices that distinguish you from competitors.",
+//   },
+//   {
+//     title: "AI Workflow <br/> Automation",
+//     icon: (
+//       <Bot className="w-12 h-12 text-[#4EE1FF] drop-shadow-[0_0_10px_rgba(78,225,255,0.8)]" />
+//     ),
+//     description:
+//       "Eliminate bottlenecks with custom AI solutions that automate repetitive tasks.",
+//   },
+//   {
+//     title: "SEO <br/> Optimization",
+//     icon: (
+//       <LineChart className="w-12 h-12 text-[#4EE1FF] drop-shadow-[0_0_10px_rgba(78,225,255,0.8)]" />
+//     ),
+//     description:
+//       "Data-driven strategies to climb search rankings and drive sustainable organic traffic.",
+//   },
+// ];
+
+// // -------------------- HEADER TEXT ANIMATION (Split Text / Unravel) ------------------------
+
+// // Variants for the letter container
+// // SplitText component with the hydration fix and text wrapping fix
+// // Variants for simple sliding header text
+// const slideInUp: Variants = {
+//   hidden: { opacity: 0, y: 30 },
+//   show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+// };
+
+// // -------------------- CARD ANIMATION (Original Logic) ------------------------
+
+// // Custom Function to get Directional Offset
+// const getDirectionalOffset = (index: number) => {
+//   // Cycles through 4 directions: 0: Left, 1: Top, 2: Right, 3: Bottom
+//   const direction = index % 4;
+//   const offset = 80; // Distance to slide from (in pixels)
+
+//   switch (direction) {
+//     case 0:
+//       return { x: -offset, y: 0 }; // Left
+//     case 1:
+//       return { x: 0, y: -offset }; // Top
+//     case 2:
+//       return { x: offset, y: 0 }; // Right
+//     case 3:
+//       return { x: 0, y: offset }; // Bottom
+//     default:
+//       return { x: 0, y: 0 };
+//   }
+// };
+
+// // Framer Motion Variants for the card container (stagger)
+// const containerVariants: Variants = {
+//   hidden: {},
+//   show: { transition: { staggerChildren: 0.15 } },
+// };
+
+// // Framer Motion Variants for individual cards (directional slide)
+// const cardVariants: Variants = {
+//   hidden: (direction: { x: number; y: number }) => ({
+//     opacity: 0,
+//     x: direction.x,
+//     y: direction.y,
+//   }),
+//   show: {
+//     opacity: 1,
+//     x: 0,
+//     y: 0,
+//     transition: {
+//       duration: 0.7,
+//       ease: [0.25, 1, 0.5, 1], // Smooth, cinematic ease
+//     },
+//   },
+// };
+
+// // -------------------- COMPONENT ------------------------
+// export default function Services() {
+//   return (
+//     <section className="bg-black text-white py-20 px-6 md:px-16 relative overflow-hidden">
+//       {/* Decorative Floating Elements (Note: These are also generating random transform values 
+//           but Framer Motion handles it by only running the animation logic client-side
+//           on the initial hydration, so they typically don't cause an issue unless 
+//           the animation starts immediately on load, which these transition props allow.) */}
+//       <motion.div
+//         animate={{ translateY: [0, -10, 0] }}
+//         transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+//         className="absolute top-20 left-1/4 w-2 h-2 rounded-full border border-[#4EE1FF] opacity-50 will-change-transform"
+//       />
+//       <motion.div
+//         animate={{ translateY: [0, 15, 0] }}
+//         transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+//         className="absolute top-10 left-[45%] w-1 h-1 bg-[#4EE1FF] rounded-full will-change-transform"
+//       />
+
+//       {/* Header Section */}
+//       <motion.div
+//         className="max-w-6xl mx-auto mb-16"
+//         initial="hidden"
+//         whileInView="show"
+//         viewport={{ once: true, amount: 0.2 }}
+//         variants={containerVariants}
+//       >
+//         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+//           <div className="w-full lg:w-5/8 relative">
+//             {/* Animated Top P Tag */}
+//             <motion.p
+//               className="uppercase text-gray-400 text-sm tracking-widest mb-3"
+//               variants={slideInUp}
+//             >
+//               What we’re offering
+//             </motion.p>
+
+//             {/* H2 with Split Text Animation, now split into two lines */}
+//             <h2 className="text-3xl sm:text-4xl md:text-4xl lg:text-4xl xl:text-5xl font-bold leading-snug">
+//               <SplitText text="Services we’re providing to our customers" />
+//               {/* <br className="hidden sm:inline" /> */}
+//               {/* <SplitText text="our customers" /> */}
+//             </h2>
+//           </div>
+
+//           <div className="w-full lg:w-3/8">
+//             {/* Animated Descriptive P Tag */}
+//             <motion.p
+//               className="text-gray-400 text-sm md:text-base leading-relaxed"
+//               variants={slideInUp}
+//               transition={{ delay: 0.1 }} // Slightly delayed to follow the top P
+//             >
+//               A full suite of services including website development, redesign,
+//               branding, and AI automation built to engage, delight, and grow
+//               your audience.
+//             </motion.p>
+//           </div>
+//         </div>
+//       </motion.div>
+
+//       {/* Service Cards (Restored Original Logic) */}
+//       <motion.div
+//         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto"
+//         variants={containerVariants}
+//         initial="hidden"
+//         whileInView="show"
+//         viewport={{ once: true, amount: 0.3 }}
+//       >
+//         {services.map((service, index) => {
+//           const directionalOffset = getDirectionalOffset(index);
+
+//           // Tailwind class for col-span-2 on large screens (lg) only for the first card
+//           const colSpanClass = index === 0 ? "md:col-span-2" : "";
+
+//           return (
+//             <motion.div
+//               key={index}
+//               custom={directionalOffset}
+//               // Combined base classes with the conditional col-span class
+//               className={`${colSpanClass} group relative bg-gradient-to-br from-[#0a0a0a] to-[#0d0d0d] p-10 pb-6 overflow-hidden border border-gray-800/80 rounded-lg transition-colors duration-500 will-change-transform`}
+//               variants={cardVariants}
+//               whileHover={{
+//                 y: -8,
+//                 scale: 1.01,
+//               }}
+//             >
+//               {/* Icon - Keeping simple opacity transition for visual freshness */}
+//               <motion.div
+//                 className="mb-6"
+//                 initial={{ opacity: 0 }}
+//                 animate={{ opacity: 1 }}
+//                 transition={{ delay: index * 0.15 + 0.3 }}
+//               >
+//                 {service.icon}
+//               </motion.div>
+
+//               {/* TITLE */}
+//               <h3
+//                 className="text-xl font-bold mb-4 text-white leading-snug"
+//                 dangerouslySetInnerHTML={{ __html: service.title }}
+//               />
+
+//               {/* DESCRIPTION */}
+//               <p className="text-gray-400 text-sm leading-relaxed mb-10">
+//                 {service.description}
+//               </p>
+
+//               {/* Blue Border Flash on Hover (CSS-based for smoothness) */}
+//               <div className="absolute inset-0 border border-transparent group-hover:border-[#4EE1FF] opacity-0 group-hover:opacity-30 transition-all duration-300 pointer-events-none rounded-lg" />
+//             </motion.div>
+//           );
+//         })}
+//       </motion.div>
+//     </section>
+//   );
+// }
 
 // "use client";
 
