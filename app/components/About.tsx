@@ -47,13 +47,18 @@ const About: React.FC = () => {
               viewport={{ once: true }}
               className="absolute inset-0 w-full h-full"
             >
-              <Image
-                src="/images/about-img.png"
-                alt="Team working together"
-                fill
-                className="object-cover rounded-sm grayscale hover:grayscale-0 transition-all duration-500"
-                priority
-              />
+              <motion.div
+                whileTap={{ filter: "grayscale(0%)" }} // <-- mobile tap shows color
+                className="w-full h-full"
+              >
+                <Image
+                  src="/images/about-img.png"
+                  alt="Team working together"
+                  fill
+                  className="object-cover rounded-sm grayscale hover:grayscale-0 transition-all duration-500"
+                  priority
+                />
+              </motion.div>
             </motion.div>
             <div className="absolute -z-10 top-4 left-4 w-full h-full border border-[#4EE1FF] rounded-sm hidden md:block" />
           </div>
